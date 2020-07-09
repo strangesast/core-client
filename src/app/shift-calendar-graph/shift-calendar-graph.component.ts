@@ -21,7 +21,7 @@ const query = gql`
       employee_id
       shifts
     }
-    employees_by_pk(id: $employeeId) {
+    employee: employees_by_pk(id: $employeeId) {
       color
       first_name
       hire_date
@@ -104,19 +104,18 @@ export class ShiftCalendarGraphComponent extends BaseGraphComponent implements O
     switchMap(employeeId => this.apollo.query({query, variables: {employeeId}})),
     takeUntil(this.destroyed$),
     pluck('data'),
-    map(({employees_by_pk, timeclock_shifts_daily}) => {
-      const arr = timeclock_shifts_daily.map(({employee_id, date, date_start, date_stop, duration, shifts}) => ({
+    map(({employee, timeclock_shifts_daily}) => {
+      const {hire_date} = employee;
+      const [yyyy, mm, dd] = hire_date.split('-').map(s => parseInt(s, 10));
+      const hireDate = new Date(yyyy, mm - 1, dd);
+      return {employee: {...employee, hire_date: hireDate}, shifts: timeclock_shifts_daily.map(({employee_id, date, date_start, date_stop, duration, shifts}) => ({
         employee_id,
         date: new Date(...(date.split('-').map(s => parseInt(s, 10)).map((f, i) => i === 1 ? f - 1 : f)) as [number, number, number]),
         date_start: date_start && new Date((date_start.endsWith('+00:00') ? date_start.slice(0, -6) : date_start) + 'Z'),
         date_stop: date_stop && new Date((date_stop.endsWith('+00:00') ? date_stop.slice(0, -6) : date_stop) + 'Z'),
         duration,
         shifts,
-      }));
-      const {hire_date} = employees_by_pk;
-      const [yyyy, mm, dd] = hire_date.split('-').map(s => parseInt(s, 10));
-      const hireDate = new Date(yyyy, mm - 1, dd);
-      return {employee: {...employees_by_pk, hire_date: hireDate}, shifts: arr};
+      }))};
     }),
   );
 
@@ -142,6 +141,8 @@ export class ShiftCalendarGraphComponent extends BaseGraphComponent implements O
     const g = this.svg.append('g');
     this.data$.subscribe(({employee, shifts}) => {
       const color = d3.interpolateRgb('white', d3.color(employee.color));
+      const extent = d3.extent(shifts, (d: any) => d.date_start);
+      console.log(extent);
       const grouped = group(shifts, (d: any) => d.date_start.getFullYear());
       const maxDuration = 10 * 3600 * 1000; // d3.max(shifts, (d: any) => d.duration);
       g.selectAll('g.year').data(Array.from(grouped), d => d[0]).join(

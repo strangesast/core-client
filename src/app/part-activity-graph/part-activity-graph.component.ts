@@ -85,7 +85,10 @@ const initQuery = gql`
 
 const machineStateQuery = gql`
   query($fields: [String!], $minDate: bigint, $maxDate: bigint) {
-    machines: machine_state(distinct_on: machine_id, order_by: {machine_id: asc, timestamp: desc}) {
+    machines: machine_state(
+      distinct_on: machine_id
+      order_by: { machine_id: asc, timestamp: desc }
+    ) {
       timestamp
       machine_id
     }
@@ -110,9 +113,7 @@ const machineStateQuery = gql`
   selector: 'app-part-activity-graph',
   // changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div>
-      Available data: {{ absMinDate | date }} - {{ absMaxDate | date }}
-    </div>
+    <div>Available data: {{ absMinDate | date }} - {{ absMaxDate | date }}</div>
     <div>
       <button mat-stroked-button [matMenuTriggerFor]="menu">
         Fields <mat-icon>expand_more</mat-icon>
@@ -296,17 +297,17 @@ export class PartActivityGraphComponent extends BaseGraphComponent
               return variables;
             }),
             switchMap((variables) =>
-              this.apollo.query<{ machines: any[], machine_state: Sample[] }>({
+              this.apollo.query<{ machines: any[]; machine_state: Sample[] }>({
                 query: machineStateQuery,
                 variables,
               })
             ),
-            pluck('data'),
+            pluck('data')
           )
         ),
-        map(({machine_state, machines}) => ({
+        map(({ machine_state, machines }) => ({
           machine_state: machine_state.map(parseValue),
-          machines: machines.map(({machine_id, timestamp}) => ({
+          machines: machines.map(({ machine_id, timestamp }) => ({
             timestamp: new Date(timestamp),
             machine_id,
           })),
@@ -314,20 +315,28 @@ export class PartActivityGraphComponent extends BaseGraphComponent
         withLatestFrom(range$, fields$)
       )
       .subscribe(([values, range, fields]) => {
-        const machineIds = values.machines.map(v => v.machine_id);
-        const machinesById = values.machines.reduce((acc, val) => ({...acc, [val.machine_id]: val}));
+        const machineIds = values.machines.map((v) => v.machine_id);
+        const machinesById = values.machines.reduce((acc, val) => ({
+          ...acc,
+          [val.machine_id]: val,
+        }));
 
         const { width, height } = this.svg.node().getBoundingClientRect();
         bg.attr('width', width).attr('height', height);
 
         xScale.domain(range).range([margin.left, width - margin.right]);
 
-        x.call(xAxis).attr(
-          'transform',
-          `translate(0,${machineIds.length * 80})`
-        );
+        // x.call(xAxis).attr(
+        //   'transform',
+        //   `translate(0,${machineIds.length * 80})`
+        // );
 
-        g.selectAll('circle').data(values.machine_state).join('circle').attr('cx', d => x(d.timestamp)).attr('cy', y(d.machine_id))
+        // g.selectAll('circle')
+        //   .data(values.machine_state)
+        //   .join('circle')
+        //   .attr('cx', (d) => x(d.timestamp))
+        //   .attr('cy', y(d.machine_id));
+        /*
         groups
           .selectAll('g')
           .data((d) => d[1])
@@ -342,16 +351,19 @@ export class PartActivityGraphComponent extends BaseGraphComponent
           .attr('transform', (d) => `translate(${xScale(d.timestamp)},0)`)
           .select('circle')
           .attr('fill', (d) => this.colorScale(d.property as any) as string);
+        */
 
         zoom.on('zoom', () => {
           xScale = d3.event.transform.rescaleX(xScale);
-          x.call(xAxis.scale(xScale));
+          // x.call(xAxis.scale(xScale));
+          /*
           groups
             .selectAll('g')
             .attr(
               'transform',
               (d: any) => `translate(${xScale(d.timestamp)},0)`
             );
+          */
         });
       });
 

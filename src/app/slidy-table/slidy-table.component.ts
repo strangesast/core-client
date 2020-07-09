@@ -30,8 +30,6 @@ import {
   pluck,
   startWith,
   switchMap,
-  take,
-  tap,
   multicast,
   refCount,
 } from 'rxjs/operators';
@@ -39,18 +37,15 @@ import {
 
 const query = gql`
   query DateShiftGroups($date: date) {
-    timeclock_shift_groups(order_by: {date_start: desc}, limit: 20, where: {date: {_eq: $date}}) {
+    shifts: timeclock_shifts_view(order_by: {date_start: desc}, limit: 20, where: {date: {_eq: $date}}) {
       employee {
         id
         first_name
         last_name
         color
       }
-      shifts(order_by: {date_start: asc}) {
-        id
-        date_start
-        date_stop
-      }
+      shift_ids
+      segments
       date_start
       date_stop
     }
@@ -218,7 +213,7 @@ export class SlidyTableComponent implements OnInit, OnChanges, AfterViewInit, On
   ngOnInit(): void {
     this.date$.pipe(
       switchMap(date => this.apollo.watchQuery({ query, variables: {date}}).valueChanges),
-      pluck('data', 'timeclock_shift_groups'),
+      pluck('data', 'shifts'),
       map((arr: any[]) => {
         let minDate;
         let maxDate;
@@ -226,11 +221,18 @@ export class SlidyTableComponent implements OnInit, OnChanges, AfterViewInit, On
         const records = [];
         for (const record of arr) {
           const {employee, date_start: d0, date_stop: d1} = record;
+          const shifts = record.segments.map(([a, b]) => ({
+            id: 'toast',
+            date_start: a && new Date(a + 'Z'),
+            date_stop: b && new Date(b + 'Z'),
+          }))
+          /*
           const shifts = record.shifts.map(({id, date_start: a, date_stop: b}) => ({
             id,
             date_start: a && new Date(a + 'Z'),
             date_stop: b && new Date(b + 'Z'),
           }));
+          */
 
           const dateStart = d0 && new Date(d0 + 'Z');
           const dateStop = d1 && new Date(d1 + 'Z');
