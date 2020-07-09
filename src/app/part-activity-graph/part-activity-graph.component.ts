@@ -322,6 +322,7 @@ export class PartActivityGraphComponent extends BaseGraphComponent
 
         xScale.domain(range).range([margin.left, width - margin.right]);
 
+	/*
         x.call(xAxis).attr(
           'transform',
           `translate(0,${machineIds.length * 80})`
@@ -353,6 +354,7 @@ export class PartActivityGraphComponent extends BaseGraphComponent
               (d: any) => `translate(${xScale(d.timestamp)},0)`
             );
         });
+       */
       });
 
     /*
