@@ -25,7 +25,7 @@ import {
 } from 'rxjs/operators';
 
 import { BaseGraphComponent } from '../base-graph/base-graph.component';
-import { ReplaySubject, Observable, range } from 'rxjs';
+import { ReplaySubject, Observable } from 'rxjs';
 import { MachinesGridComponent } from '../machines-page/machines-page.component';
 import { accessSync } from 'fs';
 
@@ -272,7 +272,7 @@ export class PartActivityGraphComponent extends BaseGraphComponent
       map(({ minDate, maxDate }) => [minDate, maxDate])
     );
 
-    let xScale = d3.scaleTime();
+    const xScale = d3.scaleTime();
     const xAxis = d3.axisBottom(xScale);
 
     const zoom = d3.zoom();
@@ -326,17 +326,13 @@ export class PartActivityGraphComponent extends BaseGraphComponent
 
         xScale.domain(range).range([margin.left, width - margin.right]);
 
-        // x.call(xAxis).attr(
-        //   'transform',
-        //   `translate(0,${machineIds.length * 80})`
-        // );
-
-        // g.selectAll('circle')
-        //   .data(values.machine_state)
-        //   .join('circle')
-        //   .attr('cx', (d) => x(d.timestamp))
-        //   .attr('cy', y(d.machine_id));
         /*
+        x.call(xAxis).attr(
+          'transform',
+          `translate(0,${machineIds.length * 80})`
+        );
+
+        g.selectAll('circle').data(values.machine_state).join('circle').attr('cx', d => x(d.timestamp)).attr('cy', y(d.machine_id))
         groups
           .selectAll('g')
           .data((d) => d[1])
@@ -351,7 +347,6 @@ export class PartActivityGraphComponent extends BaseGraphComponent
           .attr('transform', (d) => `translate(${xScale(d.timestamp)},0)`)
           .select('circle')
           .attr('fill', (d) => this.colorScale(d.property as any) as string);
-        */
 
         zoom.on('zoom', () => {
           xScale = d3.event.transform.rescaleX(xScale);
@@ -363,8 +358,8 @@ export class PartActivityGraphComponent extends BaseGraphComponent
               'transform',
               (d: any) => `translate(${xScale(d.timestamp)},0)`
             );
-          */
         });
+        */
       });
 
     /*
