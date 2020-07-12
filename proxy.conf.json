@@ -2,10 +2,7 @@
   {
     "context": "/api",
     "target": "http://localhost:3001",
-    "secure": false,
-    "pathRewrite": {
-      "^/api": ""
-    }
+    "secure": false
   },
   {
     "context": "/v1/graphql",
