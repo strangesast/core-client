@@ -1,5 +1,5 @@
 import { ViewChild, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -22,6 +22,7 @@ import { group } from 'd3-array';
     <app-page-title>
       <a [routerLink]="['/timeclock']">Timeclock</a>
     </app-page-title>
+    <!--
     <header>
       <ng-container *ngIf="active$ | async as active">
         <h1>{{ active.list.length }} Clocked In</h1>
@@ -35,12 +36,14 @@ import { group } from 'd3-array';
         </p>
       </ng-container>
     </header>
+    -->
     <div class="controls">
       <form [formGroup]="form">
         <app-timeclock-datepicker
           formControlName="date"
           [max]="getMaxDate()"
         ></app-timeclock-datepicker>
+        <button mat-stroked-button *ngIf="!isToday()" (click)="resetDate()">Today</button>
       </form>
       <!--
     <mat-button-toggle-group [(ngModel)]="activeView">
@@ -75,6 +78,10 @@ export class TimeclockPageComponent implements OnInit {
   data$: Observable<any[]>;
 
   date$: Observable<Date>;
+
+  get date() {
+    return this.form.get('date') as FormControl;
+  }
 
   active$ = this.apollo
     .watchQuery({
@@ -274,7 +281,14 @@ export class TimeclockPageComponent implements OnInit {
     });
   }
 
-  setToday() {
+  isToday(date = this.date.value): boolean {
+    const today = new Date();
+    const a = [today.getFullYear(), today.getMonth() + 1, today.getDate()];
+    const b = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
+    return a.every((aa, i) => aa === b[i])
+  }
+
+  resetDate() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     this.form.patchValue({ date: today });
@@ -285,14 +299,5 @@ export class TimeclockPageComponent implements OnInit {
     d.setHours(0, 0, 0, 0);
     d.setDate(d.getDate() + 1);
     return d;
-  }
-
-  isToday(date: Date) {
-    const now = new Date();
-    return (
-      date.getDate() === now.getDate() &&
-      date.getMonth() === now.getMonth() &&
-      date.getFullYear() === now.getFullYear()
-    );
   }
 }

@@ -16,6 +16,10 @@ import { Component, OnInit } from '@angular/core';
     <mat-sidenav-container>
       <mat-sidenav mode="side" opened #snav>
         <mat-nav-list>
+          <div mat-subheader>Manufacturing</div>
+          <a mat-list-item [routerLink]="['./manufacturing', 'schedule']"
+            >Manufacturing Schedule</a
+          >
           <div mat-subheader>Machines</div>
           <a mat-list-item [routerLink]="['./machines', 'activity']"
             >Machine Activity</a

@@ -26,6 +26,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatRadioModule } from '@angular/material/radio';
 
 const components = [
   MatSidenavModule,
@@ -54,6 +56,8 @@ const components = [
   MatCheckboxModule,
   MatSelectModule,
   PortalModule,
+  MatDialogModule,
+  MatRadioModule,
 ];
 
 @NgModule({

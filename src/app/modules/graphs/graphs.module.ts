@@ -16,6 +16,8 @@ import { PartActivityGraphComponent } from './components/part-activity-graph/par
 import { ShiftsGraphComponent } from './components/shifts-graph/shifts-graph.component';
 import { ShiftCalendarGraphComponent } from './components/shift-calendar-graph/shift-calendar-graph.component';
 import { WeeklyShiftGraphComponent } from './components/weekly-shift-graph/weekly-shift-graph.component';
+import { ProdScheduleGraphComponent } from './components/prod-schedule-graph/prod-schedule-graph.component';
+import { ProdScheduleGraphDialogComponent } from './components/prod-schedule-graph-dialog/prod-schedule-graph-dialog.component';
 
 const routes: Routes = [
   {
@@ -23,6 +25,7 @@ const routes: Routes = [
     component: GraphsPageComponent,
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'machines/activity' },
+      { path: 'manufacturing/schedule', component: ProdScheduleGraphComponent },
       { path: 'machines/activity', component: MachineActivityGraphComponent },
       {
         path: 'machines/cycles',
@@ -53,6 +56,11 @@ const routes: Routes = [
     WeeklyShiftGraphComponent,
     PartActivityGraphComponent,
     ShiftsGraphComponent,
+    ProdScheduleGraphComponent,
+    ProdScheduleGraphDialogComponent,
+  ],
+  entryComponents: [
+    ProdScheduleGraphDialogComponent,
   ],
   imports: [
     CommonModule,
