@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 import { MaterialModule } from '../material.module';
 import { PageTitleComponent } from './components/page-title/page-title.component';
@@ -18,7 +19,11 @@ const components = [
 ];
 
 @NgModule({
-  imports: [CommonModule, MaterialModule],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    RouterModule,
+  ],
   declarations: components,
   exports: components,
 })

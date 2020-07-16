@@ -31,6 +31,8 @@ import { UserService } from '../../services/user.service';
             <a mat-list-item [routerLink]="['/orders']">Orders</a>
             <a mat-list-item [routerLink]="['/inventory']">Inventory</a>
             <a mat-list-item [routerLink]="['/parts']">Parts</a>
+            <a mat-list-item [routerLink]="['/graphs']">Graphs</a>
+            <a mat-list-item [routerLink]="['/objects']">Objects</a>
             <ng-container *ngIf="user$ | async as user">
               <a
                 mat-list-item
@@ -48,6 +50,15 @@ import { UserService } from '../../services/user.service';
             <!-- huh? <a mat-list-item [routerLink]="['/history']">History</a>-->
           </div>
           <div [ngClass]="navStickyClass" class="bottom">
+            <a
+              mat-list-item
+              target="_blank"
+              class="flex-between"
+              rel="noopener noreferrer"
+              href="http://odoo.direktforce.com"
+            >
+              Odoo<mat-icon>launch</mat-icon>
+            </a>
             <a
               mat-list-item
               target="_blank"

@@ -28,6 +28,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const components = [
   MatSidenavModule,
@@ -58,6 +59,7 @@ const components = [
   PortalModule,
   MatDialogModule,
   MatRadioModule,
+  DragDropModule,
 ];
 
 @NgModule({
