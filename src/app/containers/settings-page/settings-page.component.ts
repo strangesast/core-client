@@ -93,7 +93,6 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.form.disable();
     this.user$.subscribe((user) => {
-      console.log('user', user);
       const { email, username, user_roles, color } = user;
       this.lastValue = { email, username, user_roles, color };
       this.form.setValue(this.lastValue);

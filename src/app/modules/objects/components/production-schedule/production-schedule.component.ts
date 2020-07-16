@@ -8,18 +8,26 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
     <form [formGroup]="form">
       <section formArrayName="areas">
         <h2>Manufacturing Areas</h2>
-        <div *ngFor="let control of areas.controls; index as i">
-          <div [formGroupName]="i" class="form-group">
-            <mat-form-field appearance="fill">
-              <mat-label>Area Name</mat-label>
-              <input formControlName="name" matInput placeholder="Stage 1" />
-              <mat-hint>A descriptive name</mat-hint>
-            </mat-form-field>
-            <div>
-              <button mat-stroked-button (click)="removeFromArray(areas, i)">
-                Remove
-              </button>
-            </div>
+        <div
+          *ngFor="let control of areas.controls; index as i"
+          class="record"
+          [formGroupName]="i"
+          [class.minimized]="control.get('minimized')?.value"
+        >
+          <div class="header">
+            <span>{{ control.get('value')?.value.name }}</span>
+            <span class="spacer"></span>
+            <button mat-icon-button (click)="removeFromArray(areas, i, true)">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-icon-button (click)="toggleMinification(control)">
+              <mat-icon>remove</mat-icon>
+            </button>
+          </div>
+          <div class="content" *ngIf="!control.get('minimized')?.value">
+            <app-manufacturing-area-form
+              formControlName="value"
+            ></app-manufacturing-area-form>
           </div>
         </div>
         <div>
@@ -33,162 +41,35 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
         <div
           *ngFor="let control of components.controls; index as i"
           [formGroupName]="i"
-          class="form-group"
-          [class.minimized]="control.value.minimized"
+          class="record"
+          [class.minimized]="control.get('minimized').value"
         >
-          <ng-container *ngIf="!control.value.minimized; else templ">
-            <mat-form-field appearance="fill">
-              <mat-label>Name</mat-label>
-              <input
-                formControlName="name"
-                matInput
-                placeholder="Product Name"
-              />
-              <mat-hint>A catchy name</mat-hint>
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-              <mat-label>Description</mat-label>
-              <textarea formControlName="description" matInput></textarea>
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-              <mat-label>Subcomponents</mat-label>
-              <mat-select
-                formControlName="subcomponents"
-                multiple
-                [disabled]="validSubcomponents(control).length == 0"
-              >
-                <mat-select-trigger>
-                  {{
-                    control.get('subcomponents').value
-                      ? control.get('subcomponents').value.length
-                      : 0
-                  }}
-                  Components
-                </mat-select-trigger>
-                <mat-option
-                  *ngFor="let component of validSubcomponents(control)"
-                  [value]="component.id"
-                  >{{ component.name }}</mat-option
-                >
-              </mat-select>
-            </mat-form-field>
-            <div formGroupName="operations">
-              <div
-                formArrayName="values"
-                class="form-list"
-                *ngIf="control.get('operations.editing').value; else templ2"
-              >
-                <div
-                  *ngFor="
-                    let subcontrol of control.get('operations.values').controls;
-                    let j = index
-                  "
-                  [formGroupName]="j"
-                  class="form-list-item"
-                >
-                  <span>{{ j + 1 }}</span>
-                  <mat-form-field appearance="fill">
-                    <mat-label>Name</mat-label>
-                    <input
-                      formControlName="name"
-                      matInput
-                      placeholder="Operation Name"
-                    />
-                  </mat-form-field>
-                  <mat-form-field appearance="fill">
-                    <mat-label>Area</mat-label>
-                    <mat-select formControlName="area">
-                      <mat-option
-                        *ngFor="let area of areas.value"
-                        [value]="area.id"
-                        >{{ area.name }}</mat-option
-                      >
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field appearance="fill">
-                    <mat-label>Prerequisites</mat-label>
-                    <mat-select formControlName="prerequisites" multiple>
-                      <mat-option
-                        *ngFor="
-                          let prerequisite of validPrerequisites(subcontrol)
-                        "
-                        [value]="prerequisite.id"
-                        >{{ prerequisite.name }}</mat-option
-                      >
-                    </mat-select>
-                  </mat-form-field>
-
-                  <button
-                    mat-stroked-button
-                    (click)="
-                      removeFromArray(control.get('operations.values'), j)
-                    "
-                  >
-                    <mat-icon>delete</mat-icon>
-                  </button>
-                </div>
-              </div>
-              <ng-template #templ2>
-                <div
-                  cdkDropList
-                  class="example-list"
-                  (cdkDropListDropped)="
-                    drop(control.get('operations.values'), $event)
-                  "
-                >
-                  <div
-                    cdkDrag
-                    class="example-box"
-                    *ngFor="
-                      let control of control.get('operations.values').controls
-                    "
-                  >
-                    <div
-                      class="example-custom-placeholder"
-                      *cdkDragPlaceholder
-                    ></div>
-                    <span>{{ control.get('name').value }}</span>
-                    <span class="area">{{
-                      lookupArea(control.get('area').value)?.name
-                    }}</span>
-                  </div>
-                </div>
-              </ng-template>
-              <button
-                *ngIf="control.get('operations.editing').value"
-                mat-stroked-button
-                (click)="addComponentOperation(control)"
-              >
-                <mat-icon>add</mat-icon> Add Operation
-              </button>
-              <button
-                mat-stroked-button
-                (click)="toggleOperationsEdit(control)"
-              >
-                Toggle Operations Edit
-              </button>
-            </div>
-          </ng-container>
-          <ng-template #templ>
-            <span>{{ control.value.name }}</span>
-            <span *ngIf="control.get('subcomponents').value.length as length"
+          <div class="header">
+            <span>{{ control.get('value').value.name }}</span>
+            <span
+              *ngIf="control.get('value').value.subcomponents?.length as length"
+              class="sub"
               >{{ length }} Subcomponents</span
             >
             <span
-              *ngIf="control.get('operations.values').value.length as length"
+              *ngIf="control.get('value').value.operations?.length as length"
+              class="sub"
               >{{ length }} Operations</span
             >
             <span class="spacer"></span>
-          </ng-template>
-          <div>
-            <button mat-stroked-button (click)="removeFromArray(components, i)">
+            <button
+              mat-icon-button
+              (click)="removeFromArray(components, i, true)"
+            >
               <mat-icon>delete</mat-icon>
             </button>
-            <button mat-icon-button (click)="toggleMinification(components, i)">
-              <mat-icon>{{ isMinimized(control) ? 'add' : 'remove' }}</mat-icon>
+            <button mat-icon-button (click)="toggleMinification(control)">
+              <mat-icon>remove</mat-icon>
             </button>
           </div>
-          <mat-divider></mat-divider>
+          <div class="content" *ngIf="!control.value.minimized">
+            <app-component-form formControlName="value"></app-component-form>
+          </div>
         </div>
         <div>
           <button
@@ -197,6 +78,41 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
             (click)="createNewComponent()"
           >
             <mat-icon>add</mat-icon> Add New Component
+          </button>
+        </div>
+      </section>
+      <section formArrayName="customers">
+        <h2>Customers</h2>
+        <div
+          *ngFor="let control of customers.controls; index as i"
+          class="record"
+          [class.minimized]="control.get('minimized')?.value"
+          [formGroupName]="i"
+        >
+          <div class="header">
+            <span>{{ control.get('value').value.name }}</span>
+            <span class="spacer"></span>
+            <button
+              mat-icon-button
+              (click)="removeFromArray(customers, i, true)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-icon-button (click)="toggleMinification(control)">
+              <mat-icon>remove</mat-icon>
+            </button>
+          </div>
+          <div class="content" *ngIf="!control.get('minimized')?.value">
+            <app-customer-form formControlName="value"></app-customer-form>
+          </div>
+        </div>
+        <div>
+          <button
+            mat-stroked-button
+            type="button"
+            (click)="createNewCustomer()"
+          >
+            <mat-icon>add</mat-icon> Add New Customer
           </button>
         </div>
       </section>
@@ -210,22 +126,36 @@ export class ProductionScheduleComponent implements OnInit {
   form = this.fb.group({
     areas: this.fb.array([
       this.fb.group({
-        name: ['Stage 1', Validators.required],
-        id: [++this.lastID, Validators.required],
-        minimized: false,
+        value: [{ name: 'Stage 1', id: 'stage_1' }, Validators.required],
+        minimized: [false],
       }),
     ]),
     components: this.fb.array([
       this.fb.group({
-        name: ['Product A', Validators.required],
-        description: [''],
-        subcomponents: [[]],
-        id: ++this.lastID,
+        value: [
+          {
+            id: 'product_a',
+            name: 'Product A',
+            description: '',
+            subcomponents: [],
+            operations: [],
+          },
+          Validators.required,
+        ],
+        minimized: [false],
+      }),
+    ]),
+    customers: this.fb.array([
+      this.fb.group({
+        value: {
+          name: 'Customer 123',
+          address: {
+            line1: '', line2: '', city: 'East Aurora', state: 'NY', zip: '14052',
+          },
+          phone: '716-555-5555',
+          contact: 'John Doe',
+        },
         minimized: false,
-        operations: this.fb.group({
-          editing: true,
-          values: this.fb.array([]),
-        }),
       }),
     ]),
   });
@@ -238,12 +168,20 @@ export class ProductionScheduleComponent implements OnInit {
     return this.form.get('components') as FormArray;
   }
 
+  get customers() {
+    return this.form.get('customers') as FormArray;
+  }
+
   createNewArea() {
     this.areas.push(
       this.fb.group({
-        id: ++this.lastID,
-        name: 'New Area',
-        minimized: false,
+        value: [
+          {
+            id: ++this.lastID,
+            name: 'New Area',
+          },
+        ],
+        minimized: [false],
       })
     );
   }
@@ -251,17 +189,27 @@ export class ProductionScheduleComponent implements OnInit {
   createNewComponent() {
     this.components.push(
       this.fb.group({
-        id: [++this.lastID],
-        name: ['New Product'],
-        description: [''],
-        subcomponents: [[]],
+        value: {
+          id: ++this.lastID,
+          name: 'New Product',
+          description: '',
+          subcomponents: [],
+          operations: [],
+        },
         minimized: false,
-        operations: this.fb.group({
-          editing: true,
-          values: this.fb.array([]),
-        }),
       })
     );
+  }
+
+  createNewCustomer() {
+    this.customers.push(this.fb.group({
+      value: {
+        id: ++this.lastID,
+        name: 'New Customer',
+        address: {},
+      },
+      minimized: false,
+    }));
   }
 
   addComponentOperation(control) {
@@ -287,13 +235,15 @@ export class ProductionScheduleComponent implements OnInit {
     return this.areas.value.find((area) => area.id === id);
   }
 
-  removeFromArray(array: FormArray, index: number) {
-    array.removeAt(index);
+  removeFromArray(array: FormArray, index: number, confirm = false) {
+    if (!confirm || window.confirm('Are you sure?')) {
+      array.removeAt(index);
+    }
   }
 
   constructor(public fb: FormBuilder) {}
 
-  ngOnInit(): void {}
+  ngOnInit() {}
 
   validSubcomponents(control) {
     const component = control.value;
@@ -304,8 +254,7 @@ export class ProductionScheduleComponent implements OnInit {
     return control.parent.value.filter((c) => c.id != control.value.id);
   }
 
-  toggleMinification(component: FormArray, index: number) {
-    const control = component.controls[index];
+  toggleMinification(control: FormGroup) {
     control.patchValue({ minimized: !control.value.minimized });
   }
 

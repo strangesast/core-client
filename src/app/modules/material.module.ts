@@ -29,6 +29,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 const components = [
   MatSidenavModule,
@@ -60,6 +61,7 @@ const components = [
   MatDialogModule,
   MatRadioModule,
   DragDropModule,
+  MatAutocompleteModule,
 ];
 
 @NgModule({
