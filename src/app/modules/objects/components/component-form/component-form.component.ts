@@ -9,8 +9,17 @@ import {
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { of, Subject, Subscription } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { Observable, of, Subject, Subscription, ReplaySubject } from 'rxjs';
+import {
+  tap,
+  map,
+  takeUntil,
+  withLatestFrom,
+  startWith,
+  refCount,
+  multicast,
+} from 'rxjs/operators';
+import { ObjectsService } from '../../services/objects.service';
 
 @Component({
   selector: 'app-component-form',
@@ -41,8 +50,23 @@ import { map, takeUntil } from 'rxjs/operators';
       </mat-form-field>
       <div class="sub-header">
         <span>Operations</span>
+        <span class="spacer"></span>
+        <div>
+          <button
+            *ngIf="editOperations"
+            mat-stroked-button
+            (click)="addOperation()"
+          >
+            <mat-icon>add</mat-icon> Add Operation
+          </button>
+        </div>
+        <div>
+          <button mat-flat-button (click)="editOperations = !editOperations">
+            Toggle Operations Edit
+          </button>
+        </div>
       </div>
-      <div formArrayName="operations" class="form-list" *ngIf="editOperations">
+      <div formArrayName="operations" class="form-list" *ngIf="editOperations; else templ">
         <div
           *ngFor="let control of operations.controls; index as j"
           [formGroupName]="j"
@@ -71,45 +95,37 @@ import { map, takeUntil } from 'rxjs/operators';
             <mat-label>Prerequisites</mat-label>
             <mat-select formControlName="prerequisites" multiple>
               <mat-option
-                *ngFor="let prerequisite of prerequisites$ | async"
+                *ngFor="
+                  let prerequisite of validPrerequisites(control.value?.id)
+                    | async
+                "
                 [value]="prerequisite.id"
                 >{{ prerequisite.name }}</mat-option
               >
             </mat-select>
           </mat-form-field>
-
           <button mat-stroked-button (click)="removeFromArray(operations, j)">
             <mat-icon>delete</mat-icon>
           </button>
         </div>
-        <ng-template #templ2>
-          <div
-            cdkDropList
-            class="example-list"
-            (cdkDropListDropped)="drop(operations, $event)"
-          >
-            <div
-              cdkDrag
-              class="example-box"
-              *ngFor="let control of operations.controls"
-            >
-              <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-              <span>{{ control.get('name').value }}</span>
-              <!--<span class="area">{{ lookupArea(control.get('area').value)?.name }}</span>-->
-            </div>
-          </div>
-        </ng-template>
-        <button
-          *ngIf="editOperations"
-          mat-stroked-button
-          (click)="addOperation()"
-        >
-          <mat-icon>add</mat-icon> Add Operation
-        </button>
-        <button mat-flat-button (click)="editOperations = !editOperations">
-          Toggle Operations Edit
-        </button>
       </div>
+      <ng-template #templ>
+        <div
+          cdkDropList
+          class="example-list"
+          (cdkDropListDropped)="drop(operations, $event)"
+        >
+          <div
+            cdkDrag
+            class="example-box"
+            *ngFor="let control of operations.controls"
+          >
+            <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+            <span>{{ control.get('name').value }}</span>
+            <!--<span class="area">{{ lookupArea(control.get('area').value)?.name }}</span>-->
+          </div>
+        </div>
+      </ng-template>
     </form>
   `,
   styleUrls: ['./component-form.component.scss'],
@@ -120,13 +136,11 @@ import { map, takeUntil } from 'rxjs/operators';
       multi: true,
     },
   ],
+
 })
 export class ComponentFormComponent
   implements OnInit, OnDestroy, ControlValueAccessor {
   // lookup subcomponents
-  areas$ = of([]);
-  subcomponents$ = of([]);
-  prerequisites$ = of([]);
   destroyed$ = new Subject();
   sub: Subscription;
 
@@ -140,6 +154,23 @@ export class ComponentFormComponent
     operations: this.fb.array([]),
   });
 
+  areas$ = this.service.areas$;
+
+  subcomponents$ = this.service.components$.pipe(
+    withLatestFrom(this.form.valueChanges.pipe(startWith(this.form.value))),
+    map(([arr, value]) => arr.filter((v) => v.id !== value.id))
+  );
+
+  get id() {
+    return this.form.get('id') as FormControl;
+  }
+
+  get name() {
+    return this.form.get('name') as FormControl;
+  }
+
+  name$ = this.name.valueChanges;
+
   get subcomponents() {
     return this.form.get('subcomponents') as FormControl;
   }
@@ -147,6 +178,12 @@ export class ComponentFormComponent
   get operations() {
     return this.form.get('operations') as FormArray;
   }
+
+  operations$ = this.operations.valueChanges.pipe(
+    startWith(this.operations.value),
+    multicast(new ReplaySubject(1)),
+    refCount()
+  );
 
   writeValue(obj: any) {
     let { operations, ...rest } = obj;
@@ -161,10 +198,7 @@ export class ComponentFormComponent
     this.sub = this.form.valueChanges
       .pipe(
         takeUntil(this.destroyed$),
-        map(({ operations, ...rest }) => ({
-          operations: operations.map((v) => v.value),
-          ...rest,
-        }))
+        tap(value => console.log('value', value)),
       )
       .subscribe((value) => this.onChange(value));
   }
@@ -175,9 +209,15 @@ export class ComponentFormComponent
     this.onTouch = fn;
   }
 
-  constructor(public fb: FormBuilder) {}
+  constructor(public fb: FormBuilder, public service: ObjectsService) {}
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    this.name$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((name) =>
+        this.form.patchValue({ id: name.split(' ').join('-') })
+      );
+  }
 
   ngOnDestroy() {
     this.destroyed$.next();
@@ -192,11 +232,12 @@ export class ComponentFormComponent
       ].value;
       lastOperationNum = +name.split(' ').slice(-1)[0] || 0;
     }
+    const name = `Operation ${lastOperationNum + 1}`;
     this.operations.push(
       this.fb.group({
-        id: [''],
-        name: [`Operation ${lastOperationNum + 1}`],
-        area: [],
+        id: [name.split(' ').join('-').toLowerCase()],
+        name: [name],
+        area: [null],
         prerequisites: [[]],
       })
     );
@@ -210,5 +251,9 @@ export class ComponentFormComponent
 
   drop(control: FormArray, event: CdkDragDrop<FormGroup[]>) {
     moveItemInArray(control.controls, event.previousIndex, event.currentIndex);
+  }
+
+  validPrerequisites(id: string) {
+    return this.operations$.pipe(map((arr) => arr.filter((v) => v.id !== id)));
   }
 }

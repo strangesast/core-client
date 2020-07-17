@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
   selector: 'app-customer-form',
   template: `
   <form [formGroup]="form">
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="name">
       <mat-label>Customer Name</mat-label>
       <input
         formControlName="name"
@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
       />
     </mat-form-field>
     <ng-container formGroupName="address">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" class="address-line1">
         <mat-label>Address Line 1</mat-label>
         <input
           formControlName="line1"
@@ -23,15 +23,15 @@ import { Subscription } from 'rxjs';
           placeholder="230 Main St"
         />
       </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Customer Name</mat-label>
+      <mat-form-field appearance="fill" class="address-line2">
+        <mat-label>Address Line 2</mat-label>
         <input
           formControlName="line2"
           matInput
           placeholder="Apt 2"
         />
       </mat-form-field>
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" class="address-city">
         <mat-label>City</mat-label>
         <input
           formControlName="city"
@@ -39,7 +39,7 @@ import { Subscription } from 'rxjs';
           placeholder="East Aurora"
         />
       </mat-form-field>
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" class="address-zip">
         <mat-label>Zip</mat-label>
         <input
           formControlName="zip"
@@ -47,7 +47,7 @@ import { Subscription } from 'rxjs';
           placeholder="14052"
         />
       </mat-form-field>
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" class="address-state">
         <mat-label>State</mat-label>
         <input
           formControlName="state"
@@ -56,20 +56,20 @@ import { Subscription } from 'rxjs';
         />
       </mat-form-field>
     </ng-container>
-    <mat-form-field appearance="fill">
-      <mat-label>Phone</mat-label>
-      <input
-        formControlName="phone"
-        matInput
-        placeholder="555-555-5555"
-      />
-    </mat-form-field>
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="contact">
       <mat-label>Contact</mat-label>
       <input
         formControlName="contact"
         matInput
         placeholder="John Doe"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="phone">
+      <mat-label>Phone</mat-label>
+      <input
+        formControlName="phone"
+        matInput
+        placeholder="555-555-5555"
       />
     </mat-form-field>
   </form>

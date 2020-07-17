@@ -10,6 +10,7 @@ import { ProductionScheduleComponent } from './components/production-schedule/pr
 import { ManufacturingAreaFormComponent } from './components/manufacturing-area-form/manufacturing-area-form.component';
 import { CustomerFormComponent } from './components/customer-form/customer-form.component';
 import { ComponentFormComponent } from './components/component-form/component-form.component';
+import { ManufacturingOrderFormComponent } from './components/manufacturing-order-form/manufacturing-order-form.component';
 
 const routes: Routes = [{ path: '', component: ObjectsMainPageComponent }];
 
@@ -20,6 +21,7 @@ const routes: Routes = [{ path: '', component: ObjectsMainPageComponent }];
     ManufacturingAreaFormComponent,
     CustomerFormComponent,
     ComponentFormComponent,
+    ManufacturingOrderFormComponent,
   ],
   imports: [
     CommonModule,
