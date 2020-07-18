@@ -9,7 +9,7 @@ import {
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Observable, of, Subject, Subscription, ReplaySubject } from 'rxjs';
+import { Subject, Subscription, ReplaySubject } from 'rxjs';
 import {
   tap,
   map,
@@ -19,7 +19,12 @@ import {
   refCount,
   multicast,
 } from 'rxjs/operators';
+
+
+import { IComponent, CVASig } from '../../models';
 import { ObjectsService } from '../../services/objects.service';
+
+type Sig = CVASig<IComponent>;
 
 @Component({
   selector: 'app-component-form',
@@ -66,13 +71,16 @@ import { ObjectsService } from '../../services/objects.service';
           </button>
         </div>
       </div>
-      <div formArrayName="operations" class="form-list" *ngIf="editOperations; else templ">
+      <div
+        formArrayName="operations"
+        class="form-list"
+        *ngIf="editOperations; else templ"
+      >
         <div
           *ngFor="let control of operations.controls; index as j"
           [formGroupName]="j"
           class="form-list-item"
         >
-          <span>{{ j + 1 }}</span>
           <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
             <input
@@ -136,7 +144,6 @@ import { ObjectsService } from '../../services/objects.service';
       multi: true,
     },
   ],
-
 })
 export class ComponentFormComponent
   implements OnInit, OnDestroy, ControlValueAccessor {
@@ -190,16 +197,14 @@ export class ComponentFormComponent
     operations = obj.operations.map((value) => ({ value, editing: false }));
     this.form.patchValue({ operations, ...rest });
   }
-  onChange = (val: any) => {};
 
-  registerOnChange(fn) {
+  onChange: Sig;
+
+  registerOnChange(fn: Sig) {
     this.onChange = fn;
     this.sub?.unsubscribe();
     this.sub = this.form.valueChanges
-      .pipe(
-        takeUntil(this.destroyed$),
-        tap(value => console.log('value', value)),
-      )
+      .pipe(takeUntil(this.destroyed$))
       .subscribe((value) => this.onChange(value));
   }
 

@@ -5,7 +5,7 @@
         grid-gap: 12px;
         grid-template-columns: 1fr 1fr;
 
-        .customer, .component {
+        .col-span-2 {
             grid-column: auto / span 2;
         }
 

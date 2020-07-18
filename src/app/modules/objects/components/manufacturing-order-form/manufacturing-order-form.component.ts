@@ -4,16 +4,20 @@ import {
   NG_VALUE_ACCESSOR,
   ControlValueAccessor,
   Validators,
+  FormArray,
 } from '@angular/forms';
 import { Subject, Subscription, of } from 'rxjs';
-import { takeUntil, map } from 'rxjs/operators';
+import { takeUntil, map, startWith, withLatestFrom, tap, pluck, switchMap } from 'rxjs/operators';
 import { ObjectsService } from '../../services/objects.service';
+import { IManufacturingOrder, CVASig } from '../../models';
+
+type Sig = CVASig<IManufacturingOrder>;
 
 @Component({
   selector: 'app-manufacturing-order-form',
   template: `
     <form [formGroup]="form">
-      <mat-form-field appearance="fill" class="component">
+      <mat-form-field appearance="fill" class="col-span-2 component">
         <mat-label>Component</mat-label>
         <mat-select formControlName="component">
           <mat-option
@@ -23,7 +27,7 @@ import { ObjectsService } from '../../services/objects.service';
           >
         </mat-select>
       </mat-form-field>
-      <mat-form-field appearance="fill" class="customer">
+      <mat-form-field appearance="fill" class="col-span-2 customer">
         <mat-label>Customer</mat-label>
         <mat-select formControlName="customer">
           <mat-option
@@ -35,15 +39,26 @@ import { ObjectsService } from '../../services/objects.service';
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Qty</mat-label>
-        <input type="number" min="0" formControlName="qty" matInput placeholder="1000" />
+        <input
+          type="number"
+          min="0"
+          formControlName="qty"
+          matInput
+          placeholder="1000"
+        />
         <mat-hint>Top level qty</mat-hint>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Ship Date</mat-label>
-        <input matInput formControlName="shipDate" [matDatepicker]="picker">
+        <input matInput formControlName="shipDate" [matDatepicker]="picker" />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
+      <mat-selection-list *ngIf="component$ | async as component" class="col-span-2">
+        <mat-list-option *ngFor="let item of component.operations">{{item.name}}</mat-list-option>
+        <mat-divider></mat-divider>
+        <mat-list-option *ngFor="let item of component.subcomponents">{{item.name}}</mat-list-option>
+      </mat-selection-list>
     </form>
   `,
   styleUrls: ['./manufacturing-order-form.component.scss'],
@@ -58,13 +73,21 @@ import { ObjectsService } from '../../services/objects.service';
 export class ManufacturingOrderFormComponent
   implements OnInit, ControlValueAccessor, OnDestroy {
   form = this.fb.group({
-    component: [{ name: 'Component A', version: 1, id: 'component_a' }],
+    component: [null, Validators.required],
     customer: [null, Validators.required],
     qty: [0, Validators.min(1)],
     shipDate: [null, Validators.required],
-    stages: this.fb.array([
+    parent: [null],
+    // need to identify stock (available component) or mfg. order child
+    components: this.fb.array([
+      this.fb.group({
+        type: ['stock', Validators.required],
+      }),
+    ]),
+    operations: this.fb.array([
       this.fb.group({
         id: ['step_1'],
+        state: ['incomplete'],
         started_at: [new Date()],
         available_at: [new Date()],
         completed_at: [null],
@@ -80,17 +103,32 @@ export class ManufacturingOrderFormComponent
     ]),
   });
 
+  get operations() {
+    return this.form.get('operations') as FormArray;
+  }
+
+  get components() {
+    return this.form.get('components') as FormArray;
+  }
+
+  components$ = this.service.components$;
+
+  component$ = this.form.valueChanges.pipe(
+    startWith(this.form.value),
+    pluck('component'),
+    switchMap(id => this.components$.pipe(map(components => components.find(c => c.id === id)))),
+  );
+
   sub: Subscription;
   destroyed$ = new Subject();
-  components$ = this.service.components$;
   customers$ = this.service.customers$;
 
-  writeValue(obj: any) {
+  writeValue(obj: IManufacturingOrder) {
     this.form.patchValue(obj);
   }
-  onChange = (val: any) => {};
+  onChange: Sig;
 
-  registerOnChange(fn) {
+  registerOnChange(fn: Sig) {
     this.onChange = fn;
     this.sub?.unsubscribe();
     this.sub = this.form.valueChanges

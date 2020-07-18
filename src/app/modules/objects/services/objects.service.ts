@@ -1,19 +1,27 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { pluck, map, multicast, refCount } from 'rxjs/operators';
+import { IData } from '../models';
 
 const pluckArrayValue = map((arr: any[]) => arr ? arr.map(v => v.value) : []);
+
+const getArr = (source: Observable<IData>, prop: string) => source.pipe(
+  pluck(prop),
+  pluckArrayValue,
+  multicast(new BehaviorSubject([])),
+  refCount(),
+);
 
 @Injectable({
   providedIn: 'root',
 })
 export class ObjectsService {
-  data$ = new BehaviorSubject({});
+  data$ = new BehaviorSubject<IData>({areas: [], components: [], customers: [], manufacturingOrders: []});
 
-  areas$ = this.data$.pipe(pluck('areas'), pluckArrayValue, multicast(new BehaviorSubject([])), refCount());
-  components$ = this.data$.pipe(pluck('components'), pluckArrayValue, multicast(new BehaviorSubject([])), refCount());
-  customers$ = this.data$.pipe(pluck('customers'), pluckArrayValue, multicast(new BehaviorSubject([])), refCount());
-  manufacturingOrders$ = this.data$.pipe(pluck('manufacturingOrders'), pluckArrayValue, multicast(new BehaviorSubject([])), refCount());
+  areas$ = getArr(this.data$, 'areas');
+  components$ = getArr(this.data$, 'components');
+  customers$ = getArr(this.data$, 'customers');
+  manufacturingOrders$ = getArr(this.data$, 'manufacturingOrders');
 
   constructor() {}
 }

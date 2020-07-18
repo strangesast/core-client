@@ -63,7 +63,8 @@ export function createApollo(httpLink: HttpLink) {
 
   const http = httpLink.create({ uri, headers });
 
-  const client = new SubscriptionClient(`wss://${window.location.host}${uri}`, {
+  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+  const client = new SubscriptionClient(`${protocol}//${window.location.host}${uri}`, {
     reconnect: true,
   });
   const ws = new WebSocketLink(client);
