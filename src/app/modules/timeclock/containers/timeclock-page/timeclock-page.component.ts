@@ -22,7 +22,6 @@ import { group } from 'd3-array';
     <app-page-title>
       <a [routerLink]="['/timeclock']">Timeclock</a>
     </app-page-title>
-    <!--
     <header>
       <ng-container *ngIf="active$ | async as active">
         <h1>{{ active.list.length }} Clocked In</h1>
@@ -36,7 +35,6 @@ import { group } from 'd3-array';
         </p>
       </ng-container>
     </header>
-    -->
     <div class="controls">
       <form [formGroup]="form">
         <app-timeclock-datepicker
@@ -46,15 +44,15 @@ import { group } from 'd3-array';
         <button mat-stroked-button *ngIf="!isToday()" (click)="resetDate()">Today</button>
       </form>
       <!--
-    <mat-button-toggle-group [(ngModel)]="activeView">
-      <mat-button-toggle value="timeline" aria-label="Timeline" title="Timeline">
-        <mat-icon>clear_all</mat-icon>
-      </mat-button-toggle>
-      <mat-button-toggle value="table" aria-label="Table" title="Table">
-        <mat-icon>list</mat-icon>
-      </mat-button-toggle>
-    </mat-button-toggle-group>
-    -->
+      <mat-button-toggle-group [(ngModel)]="activeView">
+        <mat-button-toggle value="timeline" aria-label="Timeline" title="Timeline">
+          <mat-icon>clear_all</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value="table" aria-label="Table" title="Table">
+          <mat-icon>list</mat-icon>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+      -->
     </div>
     <app-slidy-table [date]="date$ | async"></app-slidy-table>
   `,
