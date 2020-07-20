@@ -117,6 +117,7 @@ import { ObjectsService } from '../../services/objects.service';
             <app-manufacturing-order-form
               formControlName="value"
             ></app-manufacturing-order-form>
+            <!--
             <mat-list *ngIf="control.get('value').value.component != null">
               <div mat-subheader>Subcomponents</div>
               <mat-list-item *ngFor="let item of [1, 2, 3]">
@@ -132,6 +133,7 @@ import { ObjectsService } from '../../services/objects.service';
                 <div mat-line>Completed by Sam on 4/20/2020</div>
               </mat-list-item>
             </mat-list>
+            -->
           </div>
         </app-object-list-item>
         <div>
@@ -162,7 +164,7 @@ export class ProductionScheduleComponent implements OnInit, OnDestroy {
   form = this.fb.group({
     areas: this.fb.array([
       this.fb.group({
-        value: [{ name: 'Stage 1', id: 'stage_1' }, Validators.required],
+        value: [{ name: 'Stage 1', id: 'stage-1' }, Validators.required],
         minimized: [true],
       }),
     ]),
@@ -174,7 +176,20 @@ export class ProductionScheduleComponent implements OnInit, OnDestroy {
             name: 'Product A',
             description: '',
             subcomponents: [],
-            operations: [],
+            operations: [
+              {
+                id: ['operation-1', Validators.required],
+                name: ['Operation 1'],
+                area: ['stage-1'],
+                prerequisites: [],
+              },
+              {
+                id: ['operation-2', Validators.required],
+                name: ['Operation 2'],
+                area: ['stage-1'],
+                prerequisites: ['operation-1'],
+              },
+            ],
           },
           Validators.required,
         ],

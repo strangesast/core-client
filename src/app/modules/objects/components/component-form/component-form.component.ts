@@ -193,9 +193,11 @@ export class ComponentFormComponent
   );
 
   writeValue(obj: any) {
+    console.log('obj', obj);
     let { operations, ...rest } = obj;
-    operations = obj.operations.map((value) => ({ value, editing: false }));
-    this.form.patchValue({ operations, ...rest });
+    operations = obj.operations.map((value) => this.fb.group({ value: this.fb.group(value), editing: [false] }));
+    this.form.patchValue(rest);
+    this.form.get('operations').setValue(operations);
   }
 
   onChange: Sig;
