@@ -42,7 +42,7 @@ import { UserService } from '../../services/user.service';
               >
               <a
                 mat-list-item
-                [routerLink]="['/users']"
+                [routerLink]="['/admin', 'users']"
                 *ngIf="userService.hasRole(user, 'isAdmin')"
                 >Users</a
               >

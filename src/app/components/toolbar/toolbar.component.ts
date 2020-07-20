@@ -13,13 +13,14 @@ import { UserService } from '../../services/user.service';
       <ng-container *ngIf="userData$ | async as userData">
         <ul>
           <li *ngIf="userData.user == null">
-            <button
-              (click)="loginRedirect()"
+            <a
+              [routerLink]="['/auth', 'login']"
+              [queryParams]="redirectParams"
               mat-stroked-button
               aria-label="Log in"
             >
               <mat-icon>person</mat-icon> Log In
-            </button>
+            </a>
           </li>
           <ng-container *ngIf="userData.user != null">
             <li>
@@ -83,6 +84,11 @@ export class ToolbarComponent implements OnInit {
     public store: Store<any>,
     public userService: UserService
   ) {}
+
+  get redirectParams() {
+    const redirect = this.router.url;
+    return { redirect };
+  }
 
   ngOnInit(): void {}
 
