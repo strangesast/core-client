@@ -11,7 +11,7 @@ import {
   CdkPortal,
   DomPortalOutlet,
   TemplatePortal,
-  PortalHost,
+  PortalOutlet,
 } from '@angular/cdk/portal';
 
 @Component({
@@ -24,7 +24,7 @@ import {
   styles: [],
 })
 export class PageTitleComponent implements AfterViewChecked, OnDestroy {
-  private portalHost: PortalHost;
+  private host: PortalOutlet;
 
   @ViewChild(CdkPortal)
   portal: TemplatePortal<any>;
@@ -36,18 +36,18 @@ export class PageTitleComponent implements AfterViewChecked, OnDestroy {
   ) {}
 
   ngAfterViewChecked() {
-    if (!this.portalHost?.hasAttached()) {
-      this.portalHost = new DomPortalOutlet(
+    if (!this.host?.hasAttached()) {
+      this.host = new DomPortalOutlet(
         document.getElementById('cdkPortalOutlet'),
         this.componentFactoryResolver,
         this.appRef,
         this.injector
       );
-      this.portalHost.attach(this.portal);
+      this.host.attach(this.portal);
     }
   }
 
   ngOnDestroy(): void {
-    this.portalHost.detach();
+    this.host.detach();
   }
 }

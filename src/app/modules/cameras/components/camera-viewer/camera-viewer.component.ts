@@ -48,8 +48,8 @@ export class CameraViewerComponent
     const path = d3.geoPath().projection(null);
     this.g = svg.append('g');
 
-    const zoomed = () => {
-      this.g.attr('transform', d3.event.transform);
+    const zoomed = (event) => {
+      this.g.attr('transform', event.transform);
     };
     const zoom = d3.zoom().scaleExtent([0.01, 2]).on('zoom', zoomed);
     svg.call(zoom);
@@ -105,22 +105,22 @@ export class CameraViewerComponent
     let adjx;
     let adjy;
 
-    function dragstarted(d) {
-      const { x, y } = d3.event;
+    const dragstarted = (event, d) => {
+      const { x, y } = event;
       adjy = (d.radius + 10) * Math.sin((d.rot * Math.PI) / 180);
       adjx = (d.radius + 10) * Math.cos((d.rot * Math.PI) / 180);
-      const el = d3.event.sourceEvent.target.parentElement;
+      const el = event.sourceEvent.target.parentElement;
       rotationMode =
         el && el.classList.contains('handle') ? 'rotation' : 'translation';
-      d3.select(this)
+      d3.select(event.currentTarget)
         .raise()
         .select('circle')
         .attr('fill', `url(#${'red-gradient'})`);
     }
 
-    function dragged(d) {
-      const { x, y } = d3.event;
-      const s = d3.select(this);
+    const dragged = (event, d) => {
+      const { x, y } = event;
+      const s = d3.select(event.currentTarget);
 
       if (rotationMode === 'rotation') {
         const rot =
@@ -137,8 +137,8 @@ export class CameraViewerComponent
       }
     }
 
-    function dragended(d) {
-      d3.select(this).select('circle').attr('fill', `url(#${'blue-gradient'})`);
+    const dragended = (event, d) => {
+      d3.select(event.currentTarget).select('circle').attr('fill', `url(#${'blue-gradient'})`);
     }
 
     this.drag = d3
@@ -153,8 +153,6 @@ export class CameraViewerComponent
   }
 
   draw(data: any[]) {
-    const component = this;
-
     this.g
       .selectAll('g.circle')
       .data(data)
@@ -197,17 +195,16 @@ export class CameraViewerComponent
                 .attr('clip-path', (d) => `url(#clip-${d.id})`)
                 .attr('r', (d) => d.radius)
                 .attr('fill', `url(#${'blue-gradient'})`)
-                .on('click', function (d) {
+                .on('click', (event, d) => {
                   // reset other(0+) active circles
 
-                  component.g
-                    .selectAll('g.circle.active')
-                    .call(removeHandle, component);
-                  d3.select(this.parentElement).call(drawHandle);
-                  console.log(d);
-
-                  d3.event.preventDefault();
-                  d3.event.stopPropagation();
+                  this.g.selectAll('g.circle.active')
+                    .call(s => {
+                      s.classed('active', false).call(ss => ss.select('.handle').remove());
+                    }, this);
+                  d3.select(event.currentTarget.parentElement).call(drawHandle);
+                  event.preventDefault();
+                  event.stopPropagation();
                   return false;
                 })
             ),
@@ -249,8 +246,4 @@ function drawHandle(s) {
           .attr('r', 8)
       )
   );
-}
-
-function removeHandle(s, component) {
-  s.classed('active', false).call((ss) => ss.select('.handle').remove());
 }

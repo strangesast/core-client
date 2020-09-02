@@ -396,7 +396,7 @@ export class SlidyTableComponent
       map((arr: any[]) => {
         const vals = [];
         let total = 0;
-        for (const [key, value] of Array.from(group(arr, (d) => d.date))) {
+        for (const [key, value] of group(arr, (d) => d.date)) {
           const i = days.indexOf(key);
           const val =
             value.reduce(

@@ -41,7 +41,9 @@ import { group } from 'd3-array';
           formControlName="date"
           [max]="getMaxDate()"
         ></app-timeclock-datepicker>
-        <button mat-stroked-button *ngIf="!isToday()" (click)="resetDate()">Today</button>
+        <button mat-stroked-button *ngIf="!isToday()" (click)="resetDate()">
+          Today
+        </button>
       </form>
       <!--
       <mat-button-toggle-group [(ngModel)]="activeView">
@@ -283,7 +285,7 @@ export class TimeclockPageComponent implements OnInit {
     const today = new Date();
     const a = [today.getFullYear(), today.getMonth() + 1, today.getDate()];
     const b = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
-    return a.every((aa, i) => aa === b[i])
+    return a.every((aa, i) => aa === b[i]);
   }
 
   resetDate() {

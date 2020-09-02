@@ -7,10 +7,14 @@ import {
   OnInit,
 } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { deserialize } from 'bson';
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { Observable, BehaviorSubject, Subject, of } from 'rxjs';
 import { takeUntil, tap, switchMap, map } from 'rxjs/operators';
 import * as d3 from 'd3';
+
+interface Datum {
+  count: number;
+  date: Date;
+}
 
 @Component({
   selector: 'app-activity-count-preview',
@@ -43,7 +47,7 @@ export class ActivityCountPreviewComponent
 
   now$ = new BehaviorSubject(new Date());
 
-  data$: Observable<{ data: { count: number; date: Date }[] }> = this.now$.pipe(
+  data$: Observable<{data: Datum[]}> = this.now$.pipe(
     switchMap((now) => {
       const maxDate = now;
       const minDate = d3.timeHour.offset(maxDate, -6);
@@ -51,8 +55,8 @@ export class ActivityCountPreviewComponent
         minDate: minDate.toISOString(),
         maxDate: maxDate.toISOString(),
       };
-      const headers = { Accept: 'application/bson' };
-
+      return of({data: []} as {data: Datum[]});
+      /*
       return this.http
         .get(`/api/data/weekly`, {
           headers,
@@ -60,6 +64,7 @@ export class ActivityCountPreviewComponent
           responseType: 'arraybuffer',
         })
         .pipe(map((b) => deserialize(new Uint8Array(b))));
+      */
     })
   );
 
@@ -80,8 +85,7 @@ export class ActivityCountPreviewComponent
     this.data$
       .pipe(
         takeUntil(this.destroy$),
-        tap((v) => {
-          let { data } = v;
+        tap(({data}) => {
           data.sort((a, b) => d3.ascending(a.date, b.date));
           data = [
             ...data,

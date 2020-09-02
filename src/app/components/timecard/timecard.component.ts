@@ -7,13 +7,11 @@ import {
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
+import { gql, Apollo } from 'apollo-angular';
 import { of, BehaviorSubject, ReplaySubject } from 'rxjs';
 import {
   pluck,
   startWith,
-  multicast,
   refCount,
   map,
   switchMap,

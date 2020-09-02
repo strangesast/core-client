@@ -7,7 +7,15 @@ import {
   FormArray,
 } from '@angular/forms';
 import { Subject, Subscription, of } from 'rxjs';
-import { takeUntil, map, startWith, withLatestFrom, tap, pluck, switchMap } from 'rxjs/operators';
+import {
+  takeUntil,
+  map,
+  startWith,
+  withLatestFrom,
+  tap,
+  pluck,
+  switchMap,
+} from 'rxjs/operators';
 import { ObjectsService } from '../../services/objects.service';
 import { IManufacturingOrder, CVASig } from '../../models';
 
@@ -54,10 +62,17 @@ type Sig = CVASig<IManufacturingOrder>;
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-      <mat-selection-list *ngIf="component$ | async as component" class="col-span-2">
-        <mat-list-option *ngFor="let item of component.operations">{{item.name}}</mat-list-option>
+      <mat-selection-list
+        *ngIf="component$ | async as component"
+        class="col-span-2"
+      >
+        <mat-list-option *ngFor="let item of component.operations">{{
+          item.name
+        }}</mat-list-option>
         <mat-divider></mat-divider>
-        <mat-list-option *ngFor="let item of component.subcomponents">{{item.name}}</mat-list-option>
+        <mat-list-option *ngFor="let item of component.subcomponents">{{
+          item.name
+        }}</mat-list-option>
       </mat-selection-list>
     </form>
   `,
@@ -116,7 +131,11 @@ export class ManufacturingOrderFormComponent
   component$ = this.form.valueChanges.pipe(
     startWith(this.form.value),
     pluck('component'),
-    switchMap(id => this.components$.pipe(map(components => components.find(c => c.id === id)))),
+    switchMap((id) =>
+      this.components$.pipe(
+        map((components) => components.find((c) => c.id === id))
+      )
+    )
   );
 
   sub: Subscription;

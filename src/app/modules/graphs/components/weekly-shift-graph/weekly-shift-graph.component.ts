@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as d3 from 'd3';
 import { group } from 'd3-array';
-import { of, ReplaySubject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import {
   debounceTime,
   withLatestFrom,
@@ -162,10 +162,10 @@ export class WeeklyShiftGraphComponent extends BaseGraphComponent
               .call(d3.axisBottom(scale));
           })
           .sort((a: any, b: any) => d3.ascending(a[0], b[0]))
-          .on('mouseenter', (d) => console.log(d));
+          .on('mouseenter', (event, d) => console.log(d));
 
-        g.on('touchmove mousemove', function () {
-          const { date, value } = bisect(d3.mouse(this)[0]);
+        g.on('touchmove mousemove', event => {
+          const { date, value } = bisect(d3.pointer(event)[0]);
 
           // tooltip.attr("transform", `translate(${x(date)},${y(value)})`)
         });

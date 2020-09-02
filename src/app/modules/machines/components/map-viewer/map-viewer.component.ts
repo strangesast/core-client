@@ -148,8 +148,8 @@ export class MapViewerComponent implements AfterViewInit, OnChanges, OnDestroy {
           this.dirty = true;
         }
       })
-      .on('zoom', () => {
-        g.attr('transform', d3.event.transform);
+      .on('zoom', event => {
+        g.attr('transform', event.transform);
       });
 
     svg.call(zoom);

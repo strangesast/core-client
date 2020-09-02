@@ -57,7 +57,7 @@ export class UserService {
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
 
-        return from(this.apollo.getClient().resetStore()).pipe(
+        return from(this.apollo.client.resetStore()).pipe(
           exhaustMap(() =>
             this.getUser(user.id).pipe(
               tap((fullUser) => {
@@ -88,7 +88,7 @@ export class UserService {
   reset() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    this.apollo.getClient().resetStore();
+    this.apollo.client.resetStore();
   }
 
   logout() {

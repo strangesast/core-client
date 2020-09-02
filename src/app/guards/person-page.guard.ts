@@ -7,8 +7,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
+import { gql, Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { pluck, mapTo, map, tap } from 'rxjs/operators';
 

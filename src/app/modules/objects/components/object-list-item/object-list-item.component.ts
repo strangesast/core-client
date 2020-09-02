@@ -1,6 +1,19 @@
-import { Component, OnInit, Input, HostBinding, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  HostBinding,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { trigger, state, transition, animate, style } from '@angular/animations';
+import {
+  trigger,
+  state,
+  transition,
+  animate,
+  style,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-object-list-item',
@@ -15,7 +28,7 @@ import { trigger, state, transition, animate, style } from '@angular/animations'
       </div>
       <div>
         <button mat-icon-button (click)="toggle()">
-          <mat-icon>{{minimized ? 'add': 'remove'}}</mat-icon>
+          <mat-icon>{{ minimized ? 'add' : 'remove' }}</mat-icon>
         </button>
       </div>
     </div>
@@ -33,7 +46,6 @@ import { trigger, state, transition, animate, style } from '@angular/animations'
       transition('* => *', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
-
 })
 export class ObjectListItemComponent implements OnInit {
   @Output('remove')
@@ -49,10 +61,9 @@ export class ObjectListItemComponent implements OnInit {
   @Input()
   control: FormControl;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   toggle() {
     this.minimizedEmitter.emit(!this.minimized);
