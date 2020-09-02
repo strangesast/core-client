@@ -7,15 +7,11 @@ export interface DialogData {
 
 @Component({
   selector: 'app-prod-schedule-graph-dialog',
-  template: `
-  <pre>{{ data | json }}</pre>
-  `,
-  styleUrls: ['./prod-schedule-graph-dialog.component.scss']
+  template: ` <pre>{{ data | json }}</pre> `,
+  styleUrls: ['./prod-schedule-graph-dialog.component.scss'],
 })
 export class ProdScheduleGraphDialogComponent implements OnInit {
-
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
   ngOnInit() {}
-
 }

@@ -97,7 +97,8 @@ const employeesQuery = gql`
     `,
   ],
 })
-export class ShiftCalendarGraphComponent extends BaseGraphComponent
+export class ShiftCalendarGraphComponent
+  extends BaseGraphComponent
   implements OnInit, AfterViewInit {
   form = this.fb.group({
     employeeId: [''],

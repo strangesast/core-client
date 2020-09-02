@@ -8,9 +8,8 @@ describe('ManufacturingAreaFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ManufacturingAreaFormComponent ]
-    })
-    .compileComponents();
+      declarations: [ManufacturingAreaFormComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

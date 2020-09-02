@@ -10,18 +10,28 @@ import { Component, OnInit } from '@angular/core';
       <table mat-table [dataSource]="data">
         <ng-container matColumnDef="category" [sticky]="true">
           <th mat-header-cell *matHeaderCellDef><span>Categories</span></th>
-          <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+          <td mat-cell *matCellDef="let element">{{ element.category }}</td>
           <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
 
-        <ng-container *ngFor="let component of components" [matColumnDef]="component.id">
-          <th mat-header-cell *matHeaderCellDef><span>{{component.name}}</span></th>
-          <td mat-cell *matCellDef="let element"><mat-icon>check_circle_outline</mat-icon></td>
+        <ng-container
+          *ngFor="let component of components"
+          [matColumnDef]="component.id"
+        >
+          <th mat-header-cell *matHeaderCellDef>
+            <span>{{ component.name }}</span>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon>check_circle_outline</mat-icon>
+          </td>
           <td mat-footer-cell *matFooterCellDef>foot</td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns; sticky: true"
+        ></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
       </table>
     </div>
@@ -32,14 +42,17 @@ export class SchedulePageComponent implements OnInit {
   components = Array.from(Array(10)).map((_, i) => {
     const name = `Component ${i + 1}`;
     const id = name.split(' ').join('-').toLowerCase();
-    return {id, name};
+    return { id, name };
   });
 
-  categories = Array.from(Array(8)).map((_, i) => `category-${i+1}`);
+  categories = Array.from(Array(8)).map((_, i) => `category-${i + 1}`);
 
-  displayedColumns = ['category', ...this.components.map(c => c.id)];
+  displayedColumns = ['category', ...this.components.map((c) => c.id)];
 
-  data = this.categories.map(category => ({category, ...this.components.reduce((acc, c) => ({...acc, [c.id]: 'toast'}), {})}));
+  data = this.categories.map((category) => ({
+    category,
+    ...this.components.reduce((acc, c) => ({ ...acc, [c.id]: 'toast' }), {}),
+  }));
 
   constructor() {}
 

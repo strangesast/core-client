@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
+import { gql, Apollo } from 'apollo-angular';
 import { ReplaySubject, combineLatest, of, interval } from 'rxjs';
 import {
   withLatestFrom,
@@ -41,7 +40,8 @@ const query = gql`
   template: `<svg #svg></svg>`,
   styleUrls: ['../base-graph/base-graph.component.scss'],
 })
-export class MachineLiveGraphComponent extends BaseGraphComponent
+export class MachineLiveGraphComponent
+  extends BaseGraphComponent
   implements OnInit, AfterViewInit {
   minDate$ = interval(30000).pipe(
     startWith(0),
@@ -55,11 +55,10 @@ export class MachineLiveGraphComponent extends BaseGraphComponent
 
   machine$ = of('doosan-gt2100m');
 
-  variables$ = combineLatest(
+  variables$ = combineLatest([
     this.minDate$.pipe(map((minDate) => ({ minDate }))),
     this.machine$.pipe(map((machineId) => ({ machineId }))),
-    (a, b) => ({ ...a, ...b })
-  );
+  ]).pipe(map(([a, b]) => ({...a, ...b})));
 
   data$ = this.variables$.pipe(
     switchMap((variables) => this.apollo.query({ query, variables })),

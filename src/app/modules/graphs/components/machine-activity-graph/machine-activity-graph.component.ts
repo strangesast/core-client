@@ -6,7 +6,6 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { Selection } from 'd3';
 import * as d3 from 'd3';
 import { group } from 'd3-array';
 import { combineLatest, ReplaySubject, Subject } from 'rxjs';
@@ -18,8 +17,7 @@ import {
   map,
   takeUntil,
 } from 'rxjs/operators';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
+import { gql, Apollo } from 'apollo-angular';
 
 import { BaseGraphComponent } from '../base-graph/base-graph.component';
 
@@ -82,7 +80,8 @@ const query = gql`
   template: `<svg #svg></svg>`,
   styleUrls: ['../base-graph/base-graph.component.scss'],
 })
-export class MachineActivityGraphComponent extends BaseGraphComponent
+export class MachineActivityGraphComponent
+  extends BaseGraphComponent
   implements OnInit, AfterViewInit {
   @ViewChild('svg') el: ElementRef;
   range$ = new ReplaySubject(1);
@@ -98,7 +97,7 @@ export class MachineActivityGraphComponent extends BaseGraphComponent
     .query({ query: machinesQuery })
     .pipe(pluck('data', 'machine_execution_state'));
 
-  data$ = combineLatest(
+  data$ = combineLatest([
     this.machines$,
     this.variables$.pipe(
       switchMap((variables) => this.apollo.query({ query, variables })),
@@ -142,7 +141,7 @@ export class MachineActivityGraphComponent extends BaseGraphComponent
         return grouped;
       })
     )
-  ).pipe(
+  ]).pipe(
     map(([machines, machineValues]: any) =>
       machines.map(({ timestamp, machine_id, value }) => ({
         machine_id,

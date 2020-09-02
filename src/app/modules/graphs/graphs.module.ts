@@ -59,9 +59,7 @@ const routes: Routes = [
     ProdScheduleGraphComponent,
     ProdScheduleGraphDialogComponent,
   ],
-  entryComponents: [
-    ProdScheduleGraphDialogComponent,
-  ],
+  entryComponents: [ProdScheduleGraphDialogComponent],
   imports: [
     CommonModule,
     MaterialModule,

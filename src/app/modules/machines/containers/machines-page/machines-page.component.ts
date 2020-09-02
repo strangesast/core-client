@@ -160,7 +160,8 @@ export class MachinesMapComponent extends MachinesBaseComponent {}
     <!--<mat-paginator [hidePageSize]="true"></mat-paginator>-->
   `,
 })
-export class MachinesListComponent extends MachinesBaseComponent
+export class MachinesListComponent
+  extends MachinesBaseComponent
   implements OnInit {
   displayedColumns: string[] = [
     'name',

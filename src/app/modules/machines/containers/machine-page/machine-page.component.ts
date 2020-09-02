@@ -163,11 +163,11 @@ export class MachinePageComponent implements OnInit, AfterViewInit {
     })
   );
 
-  data$ = combineLatest(
+  data$ = combineLatest([
     this.machineID$.pipe(map((machineID) => ({ machineID }))),
     this.range$.pipe(map((range) => ({ range }))),
-    (a, b) => ({ ...a, ...b })
-  ).pipe(
+  ]).pipe(
+    map(([a, b]) => ({ ...a, ...b })),
     switchMap(({ machineID, range }) =>
       this.apollo.query(
         range != null

@@ -18,7 +18,8 @@ import { BaseGraphComponent } from '../base-graph/base-graph.component';
   template: `<svg #svg></svg>`,
   styleUrls: ['../base-graph/base-graph.component.scss'],
 })
-export class WeeklyShiftGraphComponent extends BaseGraphComponent
+export class WeeklyShiftGraphComponent
+  extends BaseGraphComponent
   implements AfterViewInit, OnInit {
   range$ = new ReplaySubject<[Date, Date]>(1);
 
@@ -164,7 +165,7 @@ export class WeeklyShiftGraphComponent extends BaseGraphComponent
           .sort((a: any, b: any) => d3.ascending(a[0], b[0]))
           .on('mouseenter', (event, d) => console.log(d));
 
-        g.on('touchmove mousemove', event => {
+        g.on('touchmove mousemove', (event) => {
           const { date, value } = bisect(d3.pointer(event)[0]);
 
           // tooltip.attr("transform", `translate(${x(date)},${y(value)})`)

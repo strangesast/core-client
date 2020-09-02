@@ -148,7 +148,7 @@ export class MapViewerComponent implements AfterViewInit, OnChanges, OnDestroy {
           this.dirty = true;
         }
       })
-      .on('zoom', event => {
+      .on('zoom', (event) => {
         g.attr('transform', event.transform);
       });
 
@@ -183,10 +183,10 @@ export class MapViewerComponent implements AfterViewInit, OnChanges, OnDestroy {
       .pipe(takeUntil(this.destroyed$), pluck('data', 'machines'))
       .subscribe((data) => console.log(data));
 
-    combineLatest(
+    combineLatest([
       assets$,
-      this.machines$.pipe(filter((arr) => arr != null))
-    ).subscribe(([json, machines]: [any, any]) => {
+      this.machines$.pipe(filter((arr) => arr != null)),
+    ]).subscribe(([json, machines]: [any, any]) => {
       /* nav changes element size slightly after render, so calculate a bit late */
       const { width, height } = svg.node().getBoundingClientRect();
       this.width = width;
@@ -249,16 +249,15 @@ export class MapViewerComponent implements AfterViewInit, OnChanges, OnDestroy {
             .attr('x', x)
             .attr('y', y);
         })
-        .on('mouseenter', function (d) {
-          const s = d3.select(this);
-          s.select('path').attr('stroke-width', 4);
+        .on('mouseenter', (event) => {
+          d3.select(event.currentTarget).select('path').attr('stroke-width', 4);
         })
-        .on('mouseleave', function (d) {
-          const s = d3.select(this);
-          s.select('path').attr('stroke-width', null);
+        .on('mouseleave', (event) => {
+          d3.select(event.currentTarget)
+            .select('path')
+            .attr('stroke-width', null);
         })
-        .on('click', (d) => {
-          console.log(d);
+        .on('click', (event, d) => {
           if (this.lastClicked === d[0]) {
             this.dirty = false;
             this.lastClicked = '';

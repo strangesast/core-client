@@ -12,7 +12,8 @@ import { stringify } from 'querystring';
   template: `<svg #svg></svg>`,
   styleUrls: ['./shifts-graph.component.scss'],
 })
-export class ShiftsGraphComponent extends BaseGraphComponent
+export class ShiftsGraphComponent
+  extends BaseGraphComponent
   implements OnInit, AfterViewInit {
   constructor(public http: HttpClient) {
     super();

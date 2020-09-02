@@ -152,7 +152,8 @@ const machineStateQuery = gql`
   `,
   styleUrls: ['./part-activity-graph.component.scss'],
 })
-export class PartActivityGraphComponent extends BaseGraphComponent
+export class PartActivityGraphComponent
+  extends BaseGraphComponent
   implements OnInit, AfterViewInit {
   colorScale: d3.ScaleOrdinal<string, unknown>;
 

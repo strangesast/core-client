@@ -20,7 +20,7 @@ export const initialState: State = {
 //   on(login, (state, { user, token }) => ({ ...state, user, token })),
 //   on(logout, (state) => ({ ...state, user: null, token: null }))
 // );
-// 
+//
 // export function userReducer(state, action) {
 //   return reducer(state, action);
 // }

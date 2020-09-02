@@ -117,6 +117,7 @@ export class ManufacturingOrderFormComponent
       }),
     ]),
   });
+  onChange: Sig;
 
   get operations() {
     return this.form.get('operations') as FormArray;
@@ -145,7 +146,6 @@ export class ManufacturingOrderFormComponent
   writeValue(obj: IManufacturingOrder) {
     this.form.patchValue(obj);
   }
-  onChange: Sig;
 
   registerOnChange(fn: Sig) {
     this.onChange = fn;

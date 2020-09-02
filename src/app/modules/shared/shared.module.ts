@@ -19,11 +19,7 @@ const components = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    MaterialModule,
-    RouterModule,
-  ],
+  imports: [CommonModule, MaterialModule, RouterModule],
   declarations: components,
   exports: components,
 })

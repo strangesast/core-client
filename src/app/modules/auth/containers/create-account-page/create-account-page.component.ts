@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subject, empty } from 'rxjs';
+import { Subject, EMPTY } from 'rxjs';
 import {
   refCount,
   publishBehavior,
@@ -187,7 +187,7 @@ export class CreateAccountPageComponent implements OnInit, OnDestroy {
             }),
             catchError((err) => {
               this.error = 'error';
-              return empty().pipe(
+              return EMPTY.pipe(
                 delay(1000),
                 finalize(() => {
                   this.form.enable();
@@ -206,8 +206,8 @@ export class CreateAccountPageComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  public hasError = (controlName: string, errorName: string) => {
+  public hasError(controlName: string, errorName: string) {
     const control = this.form.get(controlName);
     return control.hasError(errorName);
-  };
+  }
 }

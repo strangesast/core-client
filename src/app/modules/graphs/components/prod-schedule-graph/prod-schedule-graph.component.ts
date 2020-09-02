@@ -1,11 +1,12 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { BaseGraphComponent } from '../../components/base-graph/base-graph.component';
-import * as d3 from 'd3';
-import { group } from 'd3-array';
-import { MatDialog } from '@angular/material/dialog';
-import { ProdScheduleGraphDialogComponent } from '../prod-schedule-graph-dialog/prod-schedule-graph-dialog.component';
 import { FormBuilder } from '@angular/forms';
-import { takeUntil, startWith, pluck, take } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+
+import { takeUntil, pluck, take } from 'rxjs/operators';
+import * as d3 from 'd3';
+
+import { BaseGraphComponent } from '../../components/base-graph/base-graph.component';
+import { ProdScheduleGraphDialogComponent } from '../prod-schedule-graph-dialog/prod-schedule-graph-dialog.component';
 
 enum OperationType {
   Operation = 'operation',
@@ -82,7 +83,8 @@ const REMOVE =
     `,
   ],
 })
-export class ProdScheduleGraphComponent extends BaseGraphComponent
+export class ProdScheduleGraphComponent
+  extends BaseGraphComponent
   implements AfterViewInit {
   form = this.fb.group({ mode: ['stage'] });
 
@@ -271,14 +273,14 @@ export class ProdScheduleGraphComponent extends BaseGraphComponent
       .selectAll<any, LegendValue>('g')
       .data(legendValues, (d) => d.id)
       .join((s) =>
-        s.append('g').call((s) => {
-          s.append('rect')
+        s.append('g').call((ss) => {
+          ss.append('rect')
             .attr('ry', 2)
             .attr('y', -10)
             .attr('width', 20)
             .attr('height', 20)
             .attr('fill', (d) => d.color.active);
-          s.append('text')
+          ss.append('text')
             .attr('alignment-baseline', 'middle')
             .attr('x', 24)
             .text((d) => d.name);
@@ -299,26 +301,26 @@ export class ProdScheduleGraphComponent extends BaseGraphComponent
         .selectAll<any, Assembly>('g')
         .data(data, (d) => d.id)
         .join((s) =>
-          s.append('g').call((s) => {
-            s.append('text').text((d) => d.name);
+          s.append('g').call((ss) => {
+            ss.append('text').text((d) => d.name);
           })
         )
         .attr('transform', (_, i) => `translate(0,${i * rowHeight})`)
-        .each(function (d) {
+        .each(function (dd) {
           const s = d3.select(this);
 
-          const { rects, stages } = calculatePositions(d);
+          const { rects, stages } = calculatePositions(dd);
 
           s.selectAll<any, any>('g.rect')
             .data(rects)
-            .join((s) =>
-              s
+            .join((ss) =>
+              ss
                 .append('g')
                 .classed('rect', true)
-                .call((s) => s.append('text'))
+                .call((sss) => sss.append('text'))
             )
-            .call((s) =>
-              s
+            .call((ss) =>
+              ss
                 .selectAll('rect')
                 .data((d) => {
                   const colors = legend[d.op.category].color;
@@ -349,8 +351,8 @@ export class ProdScheduleGraphComponent extends BaseGraphComponent
                         },
                       ];
                 })
-                .join((s) =>
-                  s
+                .join((sss) =>
+                  sss
                     .append('rect')
                     .attr('stroke-width', 4)
                     .attr('height', height)
@@ -361,41 +363,41 @@ export class ProdScheduleGraphComponent extends BaseGraphComponent
                 .attr('width', (d) => d.w * width)
                 .attr('fill', (d) => d.color)
                 .attr('stroke', (d) => d.stroke)
-                .call((s) =>
-                  s
+                .call((sss) =>
+                  sss
                     .selectAll('animate')
-                    .data((d) => (d.animate ? [d.color] : []))
-                    .join((s) =>
-                      s
+                    .data((ddd) => (ddd.animate ? [ddd.color] : []))
+                    .join((ssss) =>
+                      ssss
                         .append('animate')
                         .attr('attributeType', 'XML')
                         .attr('attributeName', 'stroke')
-                        .attr('values', (d) => [d, 'black', d].join('; '))
+                        .attr('values', (ddd) => [ddd, 'black', ddd].join('; '))
                         .attr('dur', '1.2s')
                         .attr('repeatCount', 'indefinite')
                     )
                 )
             )
-            .call((s) =>
-              s
+            .call((ss) =>
+              ss
                 .selectAll('g.symbol')
-                .data((d) =>
-                  d.op.complete
+                .data((ddd) =>
+                  ddd.op.complete
                     ? ['complete']
                     : !d.op.available
                     ? ['incomplete']
                     : []
                 )
-                .join((s) =>
-                  s
+                .join((sss) =>
+                  sss
                     .append('g')
                     .attr(
                       'transform',
                       `translate(${width / 2},${height / 2 + 8})`
                     )
                     .classed('symbol', true)
-                    .call((s) => {
-                      s.append('svg')
+                    .call((ssss) => {
+                      ssss.append('svg')
                         .attr('fill', 'white')
                         .attr('width', 24)
                         .attr('height', 24)
@@ -405,20 +407,20 @@ export class ProdScheduleGraphComponent extends BaseGraphComponent
                 .select('svg > use')
                 .attr(
                   'href',
-                  (d) =>
+                  (ddd) =>
                     `/assets/${
-                      d === 'complete' ? 'done' : 'clear'
+                      ddd === 'complete' ? 'done' : 'clear'
                     }-24px.svg#path`
                 )
             )
             .attr(
               'transform',
-              (d) =>
-                `translate(${paddingX + d.x * (width + paddingX * 2)},${
-                  paddingY + d.y * (height + paddingY * 2)
+              (ddd) =>
+                `translate(${paddingX + ddd.x * (width + paddingX * 2)},${
+                  paddingY + ddd.y * (height + paddingY * 2)
                 })`
             )
-            .on('click', (d) => fn(d));
+            .on('click', (ddd) => fn(ddd));
         });
     };
 
@@ -445,7 +447,7 @@ export class ProdScheduleGraphComponent extends BaseGraphComponent
 function calculatePositions(d) {
   let rows = -1;
   const rowMap = {};
-  d3.hierarchy(d, (d) => d.subassemblies).each((n) => {
+  d3.hierarchy(d, (dd) => dd.subassemblies).each((n) => {
     rowMap[n.data.id] = Math.max(rows++, 0);
   });
 
@@ -465,7 +467,9 @@ function calculatePositions(d) {
             assembly: dd.assembly,
           }))
         : dd.op.prerequisites.map((id) => {
-            const sub = dd.assembly.subassemblies.find((sub) => id === sub.id);
+            const sub = dd.assembly.subassemblies.find(
+              (subb) => id === subb.id
+            );
             const op = sub.operations[sub.operations.length - 1];
             return { x: 0, y: 0, op, assembly: sub };
           })
@@ -478,7 +482,7 @@ function calculatePositions(d) {
     const { category } = l.data.op;
     if (category) {
       let i = stages.indexOf(category);
-      if (i == -1) {
+      if (i === -1) {
         i = stages.push(category) - 1;
       }
       l.data.x = i;

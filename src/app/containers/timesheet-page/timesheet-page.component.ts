@@ -1,11 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
+import { gql, Apollo } from 'apollo-angular';
 import { combineLatest } from 'rxjs';
 import { map, switchMap, startWith, pluck } from 'rxjs/operators';
 
 import { UserService } from '../../services/user.service';
+
+const query = gql`
+  query MyQuery($gt: date!, $lt: date!, $id: Int!) {
+    timeclock_shifts(
+      where: {
+        _and: { date: { _gte: $gt, _lt: $lt }, employee_id: { _eq: $id } }
+      }
+    ) {
+      date
+      date_start
+      date_stop
+      duration
+      punch_start
+      punch_stop
+      sync_id
+      last_modified
+      is_manual
+    }
+  }
+`;
 
 @Component({
   selector: 'app-timesheet-page',
@@ -42,7 +61,7 @@ export class TimesheetPageComponent implements OnInit {
     pluck('date')
   );
 
-  data$ = combineLatest(
+  data$ = combineLatest([
     this.userService.user$.pipe(
       map((user) => {
         const { id } = user.employees[0];
@@ -59,35 +78,9 @@ export class TimesheetPageComponent implements OnInit {
         return { gt, lt };
       })
     ),
-    (a, b) => ({ ...a, ...b })
-  ).pipe(
-    switchMap((variables) =>
-      this.apollo.query({
-        query: gql`
-          query MyQuery($gt: date!, $lt: date!, $id: Int!) {
-            timeclock_shifts(
-              where: {
-                _and: {
-                  date: { _gte: $gt, _lt: $lt }
-                  employee_id: { _eq: $id }
-                }
-              }
-            ) {
-              date
-              date_start
-              date_stop
-              duration
-              punch_start
-              punch_stop
-              sync_id
-              last_modified
-              is_manual
-            }
-          }
-        `,
-        variables,
-      })
-    ),
+  ]).pipe(
+    map(([a, b]) => ({ ...a, ...b })),
+    switchMap((variables) => this.apollo.query({ query, variables })),
     pluck('data', 'timeclock_shifts'),
     map((shifts: any[]) =>
       shifts.map((datum) => {

@@ -114,7 +114,7 @@ export class MainComponent implements OnInit, OnDestroy {
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this.mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this.mobileQueryListener);
+    this.mobileQuery.addEventListener('change', this.mobileQueryListener);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -127,7 +127,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this.mobileQueryListener);
+    this.mobileQuery.removeEventListener('change', this.mobileQueryListener);
   }
 
   ngOnInit(): void {

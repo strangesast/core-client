@@ -6,8 +6,8 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Observable, never, of } from 'rxjs';
-import { filter, delay, pluck, map, tap, finalize } from 'rxjs/operators';
+import { Observable, NEVER, of } from 'rxjs';
+import { pluck, map, tap, finalize } from 'rxjs/operators';
 
 @Directive({
   selector: '[appPropertyValidator]',
@@ -34,6 +34,6 @@ export class PropertyValidatorDirective implements AsyncValidator {
             unavailable ? { custom: `${this.value} is unavailable.` } : null
           )
         )
-      : never();
+      : NEVER;
   }
 }

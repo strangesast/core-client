@@ -1,20 +1,40 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
+import { gql, Apollo } from 'apollo-angular';
+
 import { BehaviorSubject, Subject } from 'rxjs';
 import {
   refCount,
   publishBehavior,
-  shareReplay,
   map,
   takeUntil,
   switchMap,
   pluck,
 } from 'rxjs/operators';
+
+const query = gql`
+  query CQuery($part: String) {
+    shipping(
+      limit: 20
+      order_by: { ship_date: desc_nulls_last }
+      where: { part: { _eq: $part } }
+    ) {
+      id
+      order_id
+      part
+      part_customer
+      po
+      customer
+      description
+      price
+      qty_order
+      qty_ship
+      ship_date
+    }
+  }
+`;
 
 interface Record {
   id: string;
@@ -220,33 +240,7 @@ function buildQuery(q: { [key: string]: string }) {
   const limit = 20;
   const orderBy = { ship_date: 'desc_nulls_last' };
   if ('part' in q) {
-    // const where = Object.entries(q).reduce((acc, [k, v]) => ({...acc, [k]: {_eq: v}}), {});
-    return {
-      query: gql`
-        query CQuery($part: String) {
-          shipping(
-            limit: 20
-            order_by: { ship_date: desc_nulls_last }
-            where: { part: { _eq: $part } }
-          ) {
-            id
-            order_id
-            part
-            part_customer
-            po
-            customer
-            description
-            price
-            qty_order
-            qty_ship
-            ship_date
-          }
-        }
-      `,
-      variables: {
-        part: q.part,
-      },
-    };
+    return { query, variables: { part: q.part } };
   }
   return {
     query: gql`

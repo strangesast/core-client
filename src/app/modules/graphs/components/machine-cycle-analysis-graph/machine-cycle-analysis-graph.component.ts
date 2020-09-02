@@ -10,7 +10,8 @@ import { group } from 'd3-array';
   template: `<svg #svg></svg>`,
   styleUrls: ['../base-graph/base-graph.component.scss'],
 })
-export class MachineCycleAnalysisGraphComponent extends BaseGraphComponent
+export class MachineCycleAnalysisGraphComponent
+  extends BaseGraphComponent
   implements OnInit, AfterViewInit {
   data$ = this.http
     .get(`/api/data/recent-data`)

@@ -11,13 +11,10 @@ import { Component, OnInit } from '@angular/core';
     </header>
     <app-production-schedule></app-production-schedule>
   `,
-  styleUrls: ['./objects-main-page.component.scss']
+  styleUrls: ['./objects-main-page.component.scss'],
 })
 export class ObjectsMainPageComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

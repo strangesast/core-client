@@ -17,7 +17,11 @@ import { ObjectsService } from '../../services/objects.service';
   template: `
     <form [formGroup]="form">
       <section formArrayName="areas">
-        <h2><span [matBadge]="areas.controls.length" matBadgeOverlap="false">Manufacturing Areas</span></h2>
+        <h2>
+          <span [matBadge]="areas.controls.length" matBadgeOverlap="false"
+            >Manufacturing Areas</span
+          >
+        </h2>
         <app-object-list-item
           *ngFor="let control of areas.controls; index as i"
           [formGroupName]="i"
@@ -38,7 +42,11 @@ import { ObjectsService } from '../../services/objects.service';
         </div>
       </section>
       <section formArrayName="components">
-        <h2><span [matBadge]="components.controls.length" matBadgeOverlap="false">Components</span></h2>
+        <h2>
+          <span [matBadge]="components.controls.length" matBadgeOverlap="false"
+            >Components</span
+          >
+        </h2>
         <app-object-list-item
           *ngFor="let control of components.controls; index as i"
           [formGroupName]="i"
@@ -76,7 +84,11 @@ import { ObjectsService } from '../../services/objects.service';
         </div>
       </section>
       <section formArrayName="customers">
-        <h2><span [matBadge]="customers.controls.length" matBadgeOverlap="false">Customers</span></h2>
+        <h2>
+          <span [matBadge]="customers.controls.length" matBadgeOverlap="false"
+            >Customers</span
+          >
+        </h2>
         <app-object-list-item
           *ngFor="let control of customers.controls; index as i"
           (remove)="removeFromArray(customers, i, true)"
@@ -101,7 +113,13 @@ import { ObjectsService } from '../../services/objects.service';
         </div>
       </section>
       <section formArrayName="manufacturingOrders">
-        <h2><span [matBadge]="manufacturingOrders.controls.length" matBadgeOverlap="false">Manufacturing Orders</span></h2>
+        <h2>
+          <span
+            [matBadge]="manufacturingOrders.controls.length"
+            matBadgeOverlap="false"
+            >Manufacturing Orders</span
+          >
+        </h2>
         <app-object-list-item
           *ngFor="let control of manufacturingOrders.controls; index as i"
           (remove)="removeFromArray(manufacturingOrders, i, true)"

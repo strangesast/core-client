@@ -47,7 +47,7 @@ export class ActivityCountPreviewComponent
 
   now$ = new BehaviorSubject(new Date());
 
-  data$: Observable<{data: Datum[]}> = this.now$.pipe(
+  data$: Observable<{ data: Datum[] }> = this.now$.pipe(
     switchMap((now) => {
       const maxDate = now;
       const minDate = d3.timeHour.offset(maxDate, -6);
@@ -55,7 +55,7 @@ export class ActivityCountPreviewComponent
         minDate: minDate.toISOString(),
         maxDate: maxDate.toISOString(),
       };
-      return of({data: []} as {data: Datum[]});
+      return of({ data: [] } as { data: Datum[] });
       /*
       return this.http
         .get(`/api/data/weekly`, {
@@ -85,7 +85,7 @@ export class ActivityCountPreviewComponent
     this.data$
       .pipe(
         takeUntil(this.destroy$),
-        tap(({data}) => {
+        tap(({ data }) => {
           data.sort((a, b) => d3.ascending(a.date, b.date));
           data = [
             ...data,

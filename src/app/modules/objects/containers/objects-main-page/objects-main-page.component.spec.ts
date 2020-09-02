@@ -8,9 +8,8 @@ describe('ObjectsMainPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ObjectsMainPageComponent ]
-    })
-    .compileComponents();
+      declarations: [ObjectsMainPageComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

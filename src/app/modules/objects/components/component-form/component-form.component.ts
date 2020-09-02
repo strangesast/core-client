@@ -20,7 +20,6 @@ import {
   multicast,
 } from 'rxjs/operators';
 
-
 import { IComponent, CVASig } from '../../models';
 import { ObjectsService } from '../../services/objects.service';
 
@@ -150,6 +149,7 @@ export class ComponentFormComponent
   // lookup subcomponents
   destroyed$ = new Subject();
   sub: Subscription;
+  onChange: Sig;
 
   editOperations = true;
 
@@ -194,13 +194,16 @@ export class ComponentFormComponent
 
   writeValue(obj: any) {
     console.log('obj', obj);
-    let { operations, ...rest } = obj;
-    operations = obj.operations.map((value) => this.fb.group({ value: this.fb.group(value), editing: [false] }));
+    const { operations, ...rest } = obj;
     this.form.patchValue(rest);
-    this.form.get('operations').setValue(operations);
+    this.form
+      .get('operations')
+      .setValue(
+        obj.operations.map((value) =>
+          this.fb.group({ value: this.fb.group(value), editing: [false] })
+        )
+      );
   }
-
-  onChange: Sig;
 
   registerOnChange(fn: Sig) {
     this.onChange = fn;
@@ -239,11 +242,11 @@ export class ComponentFormComponent
       ].value;
       lastOperationNum = +name.split(' ').slice(-1)[0] || 0;
     }
-    const name = `Operation ${lastOperationNum + 1}`;
+    const operationName = `Operation ${lastOperationNum + 1}`;
     this.operations.push(
       this.fb.group({
-        id: [name.split(' ').join('-').toLowerCase()],
-        name: [name],
+        id: [operationName.split(' ').join('-').toLowerCase()],
+        name: [operationName],
         area: [null],
         prerequisites: [[]],
       })

@@ -17,8 +17,7 @@ import {
   pluck,
   switchMap,
 } from 'rxjs/operators';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
+import { gql, Apollo } from 'apollo-angular';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -135,12 +134,14 @@ export class PersonPageComponent implements OnInit, AfterViewInit, OnDestroy {
     const employeeId$ = this.employee$.pipe(
       map(({ id }) => ({ employeeId: id }))
     );
+
     const orderBy$ = this.sort.sortChange.pipe(
       map(({ active, direction }) =>
         direction !== '' ? { order_by: { [active]: direction } } : {}
       ),
       startWith({ order_by: { [this.sort.active]: this.sort.direction } })
     );
+
     const offset$ = this.paginator.page.pipe(
       map(({ pageIndex, pageSize }) => ({
         offset: pageSize * pageIndex,
@@ -148,11 +149,9 @@ export class PersonPageComponent implements OnInit, AfterViewInit, OnDestroy {
       })),
       startWith({ offset: 0, limit: this.paginator.pageSize })
     );
-    const variables$ = combineLatest(
-      employeeId$,
-      orderBy$,
-      offset$,
-      (a, b, c) => ({ ...a, ...b, ...c })
+
+    const variables$ = combineLatest([employeeId$, orderBy$, offset$]).pipe(
+      map(([a, b, c]) => ({ ...a, ...b, ...c }))
     );
 
     this.employee$

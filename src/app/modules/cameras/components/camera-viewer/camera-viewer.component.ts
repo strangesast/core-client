@@ -116,7 +116,7 @@ export class CameraViewerComponent
         .raise()
         .select('circle')
         .attr('fill', `url(#${'red-gradient'})`);
-    }
+    };
 
     const dragged = (event, d) => {
       const { x, y } = event;
@@ -135,11 +135,13 @@ export class CameraViewerComponent
           `translate(${(d.x = x)},${(d.y = y)}) rotate(${d.rot})`
         );
       }
-    }
+    };
 
     const dragended = (event, d) => {
-      d3.select(event.currentTarget).select('circle').attr('fill', `url(#${'blue-gradient'})`);
-    }
+      d3.select(event.currentTarget)
+        .select('circle')
+        .attr('fill', `url(#${'blue-gradient'})`);
+    };
 
     this.drag = d3
       .drag()
@@ -198,10 +200,11 @@ export class CameraViewerComponent
                 .on('click', (event, d) => {
                   // reset other(0+) active circles
 
-                  this.g.selectAll('g.circle.active')
-                    .call(s => {
-                      s.classed('active', false).call(ss => ss.select('.handle').remove());
-                    }, this);
+                  this.g.selectAll('g.circle.active').call((ss) => {
+                    ss.classed('active', false).call((sss) =>
+                      sss.select('.handle').remove()
+                    );
+                  }, this);
                   d3.select(event.currentTarget.parentElement).call(drawHandle);
                   event.preventDefault();
                   event.stopPropagation();
