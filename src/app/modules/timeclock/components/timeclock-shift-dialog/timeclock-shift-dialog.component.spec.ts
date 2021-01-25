@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TimeclockShiftDialogComponent } from './timeclock-shift-dialog.component';
 
@@ -6,7 +6,7 @@ describe('TimeclockShiftDialogComponent', () => {
   let component: TimeclockShiftDialogComponent;
   let fixture: ComponentFixture<TimeclockShiftDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TimeclockShiftDialogComponent],
     }).compileComponents();

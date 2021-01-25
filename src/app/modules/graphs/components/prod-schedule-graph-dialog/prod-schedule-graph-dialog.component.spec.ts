@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ProdScheduleGraphDialogComponent } from './prod-schedule-graph-dialog.component';
 
@@ -6,7 +6,7 @@ describe('ProdScheduleGraphDialogComponent', () => {
   let component: ProdScheduleGraphDialogComponent;
   let fixture: ComponentFixture<ProdScheduleGraphDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ProdScheduleGraphDialogComponent],
     }).compileComponents();

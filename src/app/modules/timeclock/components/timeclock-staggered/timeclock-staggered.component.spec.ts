@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TimeclockStaggeredComponent } from './timeclock-staggered.component';
 
@@ -6,7 +6,7 @@ describe('TimeclockStaggeredComponent', () => {
   let component: TimeclockStaggeredComponent;
   let fixture: ComponentFixture<TimeclockStaggeredComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TimeclockStaggeredComponent],
     }).compileComponents();

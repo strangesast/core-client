@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TimeclockDatepickerComponent } from './timeclock-datepicker.component';
 
@@ -6,7 +6,7 @@ describe('TimeclockDatepickerComponent', () => {
   let component: TimeclockDatepickerComponent;
   let fixture: ComponentFixture<TimeclockDatepickerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TimeclockDatepickerComponent],
     }).compileComponents();

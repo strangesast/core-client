@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { WeeklyShiftGraphComponent } from './weekly-shift-graph.component';
 
@@ -6,7 +6,7 @@ describe('WeeklyShiftGraphComponent', () => {
   let component: WeeklyShiftGraphComponent;
   let fixture: ComponentFixture<WeeklyShiftGraphComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [WeeklyShiftGraphComponent],
     }).compileComponents();

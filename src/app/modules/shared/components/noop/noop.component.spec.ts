@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NoopComponent } from './noop.component';
 
@@ -6,7 +6,7 @@ describe('NoopComponent', () => {
   let component: NoopComponent;
   let fixture: ComponentFixture<NoopComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [NoopComponent],
     }).compileComponents();

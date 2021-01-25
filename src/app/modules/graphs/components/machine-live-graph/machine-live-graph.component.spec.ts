@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MachineLiveGraphComponent } from './machine-live-graph.component';
 
@@ -6,7 +6,7 @@ describe('MachineLiveGraphComponent', () => {
   let component: MachineLiveGraphComponent;
   let fixture: ComponentFixture<MachineLiveGraphComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [MachineLiveGraphComponent],
     }).compileComponents();

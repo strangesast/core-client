@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { OrderListPageComponent } from './order-list-page.component';
 
@@ -6,7 +6,7 @@ describe('OrderListPageComponent', () => {
   let component: OrderListPageComponent;
   let fixture: ComponentFixture<OrderListPageComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [OrderListPageComponent],
     }).compileComponents();

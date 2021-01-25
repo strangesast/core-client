@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MachineActivityGraphComponent } from './machine-activity-graph.component';
 
@@ -6,7 +6,7 @@ describe('MachineActivityGraphComponent', () => {
   let component: MachineActivityGraphComponent;
   let fixture: ComponentFixture<MachineActivityGraphComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [MachineActivityGraphComponent],
     }).compileComponents();

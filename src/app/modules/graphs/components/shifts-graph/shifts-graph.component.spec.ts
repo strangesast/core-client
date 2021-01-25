@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ShiftsGraphComponent } from './shifts-graph.component';
 
@@ -6,7 +6,7 @@ describe('ShiftsGraphComponent', () => {
   let component: ShiftsGraphComponent;
   let fixture: ComponentFixture<ShiftsGraphComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ShiftsGraphComponent],
     }).compileComponents();
