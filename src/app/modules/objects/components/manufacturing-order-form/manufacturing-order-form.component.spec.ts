@@ -6,11 +6,13 @@ describe('ManufacturingOrderFormComponent', () => {
   let component: ManufacturingOrderFormComponent;
   let fixture: ComponentFixture<ManufacturingOrderFormComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ManufacturingOrderFormComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ManufacturingOrderFormComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ManufacturingOrderFormComponent);

@@ -6,11 +6,13 @@ describe('WeeklyShiftGraphComponent', () => {
   let component: WeeklyShiftGraphComponent;
   let fixture: ComponentFixture<WeeklyShiftGraphComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [WeeklyShiftGraphComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [WeeklyShiftGraphComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(WeeklyShiftGraphComponent);

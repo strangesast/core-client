@@ -6,11 +6,13 @@ describe('ForbiddenPageComponent', () => {
   let component: ForbiddenPageComponent;
   let fixture: ComponentFixture<ForbiddenPageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ForbiddenPageComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ForbiddenPageComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ForbiddenPageComponent);

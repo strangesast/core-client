@@ -58,7 +58,7 @@ export class MachineLiveGraphComponent
   variables$ = combineLatest([
     this.minDate$.pipe(map((minDate) => ({ minDate }))),
     this.machine$.pipe(map((machineId) => ({ machineId }))),
-  ]).pipe(map(([a, b]) => ({...a, ...b})));
+  ]).pipe(map(([a, b]) => ({ ...a, ...b })));
 
   data$ = this.variables$.pipe(
     switchMap((variables) => this.apollo.query({ query, variables })),

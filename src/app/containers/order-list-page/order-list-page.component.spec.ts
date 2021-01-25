@@ -6,11 +6,13 @@ describe('OrderListPageComponent', () => {
   let component: OrderListPageComponent;
   let fixture: ComponentFixture<OrderListPageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [OrderListPageComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [OrderListPageComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderListPageComponent);

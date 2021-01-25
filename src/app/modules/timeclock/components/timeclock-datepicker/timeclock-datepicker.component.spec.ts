@@ -6,11 +6,13 @@ describe('TimeclockDatepickerComponent', () => {
   let component: TimeclockDatepickerComponent;
   let fixture: ComponentFixture<TimeclockDatepickerComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [TimeclockDatepickerComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [TimeclockDatepickerComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TimeclockDatepickerComponent);

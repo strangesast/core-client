@@ -6,11 +6,13 @@ describe('ColorInputComponent', () => {
   let component: ColorInputComponent;
   let fixture: ComponentFixture<ColorInputComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ColorInputComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ColorInputComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ColorInputComponent);

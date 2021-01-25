@@ -6,11 +6,13 @@ describe('CustomerListPageComponent', () => {
   let component: CustomerListPageComponent;
   let fixture: ComponentFixture<CustomerListPageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [CustomerListPageComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [CustomerListPageComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomerListPageComponent);

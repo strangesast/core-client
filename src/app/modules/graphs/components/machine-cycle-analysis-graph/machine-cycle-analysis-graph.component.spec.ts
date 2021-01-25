@@ -6,11 +6,13 @@ describe('MachineCycleAnalysisGraphComponent', () => {
   let component: MachineCycleAnalysisGraphComponent;
   let fixture: ComponentFixture<MachineCycleAnalysisGraphComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [MachineCycleAnalysisGraphComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MachineCycleAnalysisGraphComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MachineCycleAnalysisGraphComponent);

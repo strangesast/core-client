@@ -6,11 +6,13 @@ describe('ProdScheduleGraphDialogComponent', () => {
   let component: ProdScheduleGraphDialogComponent;
   let fixture: ComponentFixture<ProdScheduleGraphDialogComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ProdScheduleGraphDialogComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ProdScheduleGraphDialogComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProdScheduleGraphDialogComponent);

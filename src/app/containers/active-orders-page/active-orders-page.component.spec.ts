@@ -6,11 +6,13 @@ describe('ActiveOrdersPageComponent', () => {
   let component: ActiveOrdersPageComponent;
   let fixture: ComponentFixture<ActiveOrdersPageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ActiveOrdersPageComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ActiveOrdersPageComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ActiveOrdersPageComponent);

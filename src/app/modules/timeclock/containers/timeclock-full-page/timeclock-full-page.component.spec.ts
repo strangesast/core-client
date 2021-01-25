@@ -6,11 +6,13 @@ describe('TimeclockFullPageComponent', () => {
   let component: TimeclockFullPageComponent;
   let fixture: ComponentFixture<TimeclockFullPageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [TimeclockFullPageComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [TimeclockFullPageComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TimeclockFullPageComponent);

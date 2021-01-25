@@ -6,11 +6,13 @@ describe('TimeclockTableComponent', () => {
   let component: TimeclockTableComponent;
   let fixture: ComponentFixture<TimeclockTableComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [TimeclockTableComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [TimeclockTableComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TimeclockTableComponent);

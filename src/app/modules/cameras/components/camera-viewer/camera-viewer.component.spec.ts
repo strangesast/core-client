@@ -6,11 +6,13 @@ describe('CameraViewerComponent', () => {
   let component: CameraViewerComponent;
   let fixture: ComponentFixture<CameraViewerComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [CameraViewerComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [CameraViewerComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CameraViewerComponent);

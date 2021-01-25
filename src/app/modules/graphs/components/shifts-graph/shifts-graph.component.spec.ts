@@ -6,11 +6,13 @@ describe('ShiftsGraphComponent', () => {
   let component: ShiftsGraphComponent;
   let fixture: ComponentFixture<ShiftsGraphComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ShiftsGraphComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ShiftsGraphComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ShiftsGraphComponent);

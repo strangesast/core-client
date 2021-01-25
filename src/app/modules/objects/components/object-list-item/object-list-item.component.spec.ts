@@ -6,11 +6,13 @@ describe('ObjectListItemComponent', () => {
   let component: ObjectListItemComponent;
   let fixture: ComponentFixture<ObjectListItemComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ObjectListItemComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ObjectListItemComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ObjectListItemComponent);

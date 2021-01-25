@@ -140,7 +140,7 @@ export class MachineActivityGraphComponent
         }
         return grouped;
       })
-    )
+    ),
   ]).pipe(
     map(([machines, machineValues]: any) =>
       machines.map(({ timestamp, machine_id, value }) => ({

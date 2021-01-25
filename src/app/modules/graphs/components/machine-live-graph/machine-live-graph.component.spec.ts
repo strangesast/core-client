@@ -6,11 +6,13 @@ describe('MachineLiveGraphComponent', () => {
   let component: MachineLiveGraphComponent;
   let fixture: ComponentFixture<MachineLiveGraphComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [MachineLiveGraphComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MachineLiveGraphComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MachineLiveGraphComponent);

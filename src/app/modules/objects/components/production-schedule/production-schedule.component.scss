@@ -3,7 +3,7 @@
   & ~ .header-note {
     padding-left: 0;
     &:before {
-      content: ', ';
+      content: ", ";
     }
   }
 }

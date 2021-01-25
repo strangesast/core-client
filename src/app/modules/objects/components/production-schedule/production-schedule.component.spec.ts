@@ -6,11 +6,13 @@ describe('ProductionScheduleComponent', () => {
   let component: ProductionScheduleComponent;
   let fixture: ComponentFixture<ProductionScheduleComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ProductionScheduleComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ProductionScheduleComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductionScheduleComponent);

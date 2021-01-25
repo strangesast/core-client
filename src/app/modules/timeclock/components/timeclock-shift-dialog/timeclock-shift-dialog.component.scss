@@ -3,7 +3,7 @@
   grid-gap: 12px;
   padding: 20px;
   grid-template-columns: auto auto;
-  & > span:nth-child(2n+1) {
+  & > span:nth-child(2n + 1) {
     text-align: right;
   }
 }

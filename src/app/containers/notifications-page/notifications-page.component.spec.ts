@@ -6,11 +6,13 @@ describe('NotificationsPageComponent', () => {
   let component: NotificationsPageComponent;
   let fixture: ComponentFixture<NotificationsPageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [NotificationsPageComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [NotificationsPageComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NotificationsPageComponent);

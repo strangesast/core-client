@@ -6,11 +6,13 @@ describe('UserAccountPageComponent', () => {
   let component: UserAccountPageComponent;
   let fixture: ComponentFixture<UserAccountPageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [UserAccountPageComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [UserAccountPageComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserAccountPageComponent);

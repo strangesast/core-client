@@ -8,9 +8,10 @@
   content: ",\00a0";
 }
 
-
 mat-table {
-  .mat-header-row, .mat-footer-row, .mat-row {
+  .mat-header-row,
+  .mat-footer-row,
+  .mat-row {
     min-width: 1000px;
   }
   .mat-table-sticky:first-child {
@@ -23,7 +24,8 @@ mat-table {
     padding-left: 8px;
     border-left: 1px solid transparent;
   }
-  .mat-column-qty, .mat-column-qty {
+  .mat-column-qty,
+  .mat-column-qty {
     justify-content: center;
   }
   .mat-column-description {

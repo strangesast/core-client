@@ -4,7 +4,8 @@
   overflow: hidden;
 }
 
-.mat-table, .mat-table tr {
+.mat-table,
+.mat-table tr {
   background: white;
 }
 
@@ -13,12 +14,13 @@
   overflow: auto;
 }
 
-.table-container, table {
+.table-container,
+table {
   min-width: 100%;
 }
 
 table {
-  table-layout:fixed
+  table-layout: fixed;
 }
 
 .mat-column-name {
@@ -119,15 +121,14 @@ tr.example-row-row:not(.example-expanded-row):active {
   opacity: 0.5;
 }
 
-.header-blocks, .blocks {
+.header-blocks,
+.blocks {
   position: relative;
 
   & > span {
     position: absolute;
   }
-
 }
-
 
 .pill {
   display: block;

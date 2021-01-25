@@ -6,11 +6,13 @@ describe('SchedulePageComponent', () => {
   let component: SchedulePageComponent;
   let fixture: ComponentFixture<SchedulePageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [SchedulePageComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [SchedulePageComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SchedulePageComponent);

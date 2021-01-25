@@ -6,11 +6,13 @@ describe('ObjectsMainPageComponent', () => {
   let component: ObjectsMainPageComponent;
   let fixture: ComponentFixture<ObjectsMainPageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ObjectsMainPageComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ObjectsMainPageComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ObjectsMainPageComponent);

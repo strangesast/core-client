@@ -6,11 +6,13 @@ describe('PersonListPageComponent', () => {
   let component: PersonListPageComponent;
   let fixture: ComponentFixture<PersonListPageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [PersonListPageComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [PersonListPageComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PersonListPageComponent);

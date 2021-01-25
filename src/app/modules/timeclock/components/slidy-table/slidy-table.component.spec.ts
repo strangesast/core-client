@@ -6,11 +6,13 @@ describe('SlidyTableComponent', () => {
   let component: SlidyTableComponent;
   let fixture: ComponentFixture<SlidyTableComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [SlidyTableComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [SlidyTableComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SlidyTableComponent);

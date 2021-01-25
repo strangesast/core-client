@@ -6,11 +6,13 @@ describe('SummaryPageComponent', () => {
   let component: SummaryPageComponent;
   let fixture: ComponentFixture<SummaryPageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [SummaryPageComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [SummaryPageComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SummaryPageComponent);

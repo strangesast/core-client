@@ -6,11 +6,13 @@ describe('TimeclockStaggeredComponent', () => {
   let component: TimeclockStaggeredComponent;
   let fixture: ComponentFixture<TimeclockStaggeredComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [TimeclockStaggeredComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [TimeclockStaggeredComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TimeclockStaggeredComponent);

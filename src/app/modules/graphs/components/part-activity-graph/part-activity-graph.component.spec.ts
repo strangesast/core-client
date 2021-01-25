@@ -6,11 +6,13 @@ describe('PartActivityGraphComponent', () => {
   let component: PartActivityGraphComponent;
   let fixture: ComponentFixture<PartActivityGraphComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [PartActivityGraphComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [PartActivityGraphComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PartActivityGraphComponent);

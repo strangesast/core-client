@@ -6,11 +6,13 @@ describe('MachineStatusGridComponent', () => {
   let component: MachineStatusGridComponent;
   let fixture: ComponentFixture<MachineStatusGridComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [MachineStatusGridComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MachineStatusGridComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MachineStatusGridComponent);

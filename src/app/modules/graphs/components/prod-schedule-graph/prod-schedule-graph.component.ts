@@ -397,7 +397,8 @@ export class ProdScheduleGraphComponent
                     )
                     .classed('symbol', true)
                     .call((ssss) => {
-                      ssss.append('svg')
+                      ssss
+                        .append('svg')
                         .attr('fill', 'white')
                         .attr('width', 24)
                         .attr('height', 24)

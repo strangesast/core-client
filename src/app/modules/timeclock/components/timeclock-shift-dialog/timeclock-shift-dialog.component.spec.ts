@@ -6,11 +6,13 @@ describe('TimeclockShiftDialogComponent', () => {
   let component: TimeclockShiftDialogComponent;
   let fixture: ComponentFixture<TimeclockShiftDialogComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [TimeclockShiftDialogComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [TimeclockShiftDialogComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TimeclockShiftDialogComponent);

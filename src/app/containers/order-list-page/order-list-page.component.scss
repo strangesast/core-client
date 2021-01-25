@@ -17,10 +17,13 @@
 }
 
 mat-table {
-  mat-cell, mat-header-cell {
+  mat-cell,
+  mat-header-cell {
     white-space: nowrap;
   }
-  .mat-header-row, .mat-footer-row, .mat-row {
+  .mat-header-row,
+  .mat-footer-row,
+  .mat-row {
     min-width: 1000px;
   }
   .mat-table-sticky:first-child {
@@ -29,7 +32,7 @@ mat-table {
   .mat-table-sticky:last-child {
     border-left: 1px solid #e0e0e0;
   }
-  .mat-column-po, {
+  .mat-column-po {
     padding-left: 8px;
     border-left: 1px solid transparent;
   }
@@ -38,7 +41,8 @@ mat-table {
     flex: 0 0 160px;
     box-sizing: border-box;
   }
-  .mat-column-qty_ship, .mat-column-qty_order {
+  .mat-column-qty_ship,
+  .mat-column-qty_order {
     justify-content: center;
   }
   .mat-column-price {

@@ -6,11 +6,13 @@ describe('PageTitleComponent', () => {
   let component: PageTitleComponent;
   let fixture: ComponentFixture<PageTitleComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [PageTitleComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [PageTitleComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PageTitleComponent);

@@ -6,11 +6,13 @@ describe('ActivityCountPreviewComponent', () => {
   let component: ActivityCountPreviewComponent;
   let fixture: ComponentFixture<ActivityCountPreviewComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ActivityCountPreviewComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ActivityCountPreviewComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ActivityCountPreviewComponent);

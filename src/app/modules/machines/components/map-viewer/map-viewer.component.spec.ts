@@ -6,11 +6,13 @@ describe('MapViewerComponent', () => {
   let component: MapViewerComponent;
   let fixture: ComponentFixture<MapViewerComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [MapViewerComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MapViewerComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MapViewerComponent);

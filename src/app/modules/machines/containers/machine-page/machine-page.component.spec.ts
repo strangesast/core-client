@@ -6,11 +6,13 @@ describe('MachinePageComponent', () => {
   let component: MachinePageComponent;
   let fixture: ComponentFixture<MachinePageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [MachinePageComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MachinePageComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MachinePageComponent);

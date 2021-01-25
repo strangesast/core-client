@@ -1,7 +1,7 @@
 # CORE Client Application
 
-
 ## Convert .dxf to topojson
+
 `ogr2ogr -f GeoJSON ./df_building.geojson df_building.dxf`
 `geo2topo df_building.geojson > df_building.json`
 

@@ -6,11 +6,13 @@ describe('UserBadgeComponent', () => {
   let component: UserBadgeComponent;
   let fixture: ComponentFixture<UserBadgeComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [UserBadgeComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [UserBadgeComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserBadgeComponent);

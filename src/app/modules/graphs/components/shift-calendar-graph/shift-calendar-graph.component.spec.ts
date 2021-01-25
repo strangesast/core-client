@@ -6,11 +6,13 @@ describe('ShiftCalendarGraphComponent', () => {
   let component: ShiftCalendarGraphComponent;
   let fixture: ComponentFixture<ShiftCalendarGraphComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ShiftCalendarGraphComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ShiftCalendarGraphComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ShiftCalendarGraphComponent);

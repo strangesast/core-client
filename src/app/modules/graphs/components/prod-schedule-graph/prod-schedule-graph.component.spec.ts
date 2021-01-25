@@ -6,11 +6,13 @@ describe('ProdScheduleGraphComponent', () => {
   let component: ProdScheduleGraphComponent;
   let fixture: ComponentFixture<ProdScheduleGraphComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ProdScheduleGraphComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ProdScheduleGraphComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProdScheduleGraphComponent);

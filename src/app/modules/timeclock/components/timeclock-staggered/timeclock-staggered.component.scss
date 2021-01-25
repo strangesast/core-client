@@ -29,14 +29,14 @@
       justify-content: center;
       span {
         text-align: center;
-        transform: translate(-50%,0);
+        transform: translate(-50%, 0);
         font-size: 14px;
       }
       &:after {
         position: absolute;
         left: 0;
         top: 18px;
-        content: '';
+        content: "";
         height: 6px;
         border-left: 1px solid black;
       }

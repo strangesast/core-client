@@ -6,11 +6,13 @@ describe('InventoryPageComponent', () => {
   let component: InventoryPageComponent;
   let fixture: ComponentFixture<InventoryPageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [InventoryPageComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [InventoryPageComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(InventoryPageComponent);
