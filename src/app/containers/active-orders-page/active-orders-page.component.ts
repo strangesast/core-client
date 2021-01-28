@@ -1,9 +1,34 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
+import { Apollo, gql } from 'apollo-angular';
 import { Subject } from 'rxjs';
-import { tap, pluck, takeUntil } from 'rxjs/operators';
+import { pluck, takeUntil } from 'rxjs/operators';
+
+const QUERY = gql`
+  query ScheduleQuery {
+    schedule {
+      col
+      customer
+      date
+      description
+      part
+      qty
+      readystate
+      qty_note
+      sos
+    }
+  }
+`;
+
+const COLUMNS = [
+  'part',
+  'customer',
+  'description',
+  'date',
+  'qty',
+  'qty_note',
+  'sos',
+];
 
 @Component({
   selector: 'app-active-orders-page',
@@ -83,34 +108,11 @@ import { tap, pluck, takeUntil } from 'rxjs/operators';
   styleUrls: ['../../styles/base.scss', './active-orders-page.component.scss'],
 })
 export class ActiveOrdersPageComponent implements OnInit, OnDestroy {
-  query = gql`
-    query ScheduleQuery {
-      schedule {
-        col
-        customer
-        date
-        description
-        part
-        qty
-        readystate
-        qty_note
-        sos
-      }
-    }
-  `;
-  displayedColumns = [
-    'part',
-    'customer',
-    'description',
-    'date',
-    'qty',
-    'qty_note',
-    'sos',
-  ];
+  displayedColumns = COLUMNS;
 
   dataSource = new MatTableDataSource();
   destroyed$ = new Subject();
-  data$ = this.apollo.query({ query: this.query }).pipe(pluck('data'));
+  data$ = this.apollo.query({ query: QUERY }).pipe(pluck('data'));
 
   constructor(public apollo: Apollo) {}
 

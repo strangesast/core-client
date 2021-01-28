@@ -6,13 +6,11 @@ import {
   Validators,
   FormArray,
 } from '@angular/forms';
-import { Subject, Subscription, of } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import {
   takeUntil,
   map,
   startWith,
-  withLatestFrom,
-  tap,
   pluck,
   switchMap,
 } from 'rxjs/operators';

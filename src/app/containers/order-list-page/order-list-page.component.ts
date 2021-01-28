@@ -14,8 +14,26 @@ import {
   pluck,
 } from 'rxjs/operators';
 
-const query = gql`
-  query CQuery($part: String) {
+const SHIPPING_QUERY = gql`
+  query AQuery {
+    shipping(limit: 20, order_by: { ship_date: desc_nulls_last }) {
+      id
+      order_id
+      part
+      part_customer
+      po
+      customer
+      description
+      price
+      qty_order
+      qty_ship
+      ship_date
+    }
+  }
+`;
+
+const QUERY = gql`
+  query($part: String) {
     shipping(
       limit: 20
       order_by: { ship_date: desc_nulls_last }
@@ -237,28 +255,14 @@ export class OrderListPageComponent implements OnInit, OnDestroy {
 }
 
 function buildQuery(q: { [key: string]: string }) {
+  /*
   const limit = 20;
   const orderBy = { ship_date: 'desc_nulls_last' };
+  */
   if ('part' in q) {
-    return { query, variables: { part: q.part } };
+    return { query: QUERY, variables: { part: q.part } };
   }
   return {
-    query: gql`
-      query AQuery {
-        shipping(limit: 20, order_by: { ship_date: desc_nulls_last }) {
-          id
-          order_id
-          part
-          part_customer
-          po
-          customer
-          description
-          price
-          qty_order
-          qty_ship
-          ship_date
-        }
-      }
-    `,
+    query: SHIPPING_QUERY,
   };
 }

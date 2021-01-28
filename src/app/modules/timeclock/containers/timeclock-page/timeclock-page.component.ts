@@ -3,8 +3,7 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
+import { Apollo, gql } from 'apollo-angular';
 import { Observable, of, interval } from 'rxjs';
 import {
   first,
@@ -257,7 +256,7 @@ export class TimeclockPageComponent implements OnInit {
         .map((shifts) => {
           let duration;
           if (shifts[shifts.length - 1].duration == null) {
-            const base = shifts.reduce((acc, s) => acc + s.duration || 0, 0);
+            // const base = shifts.reduce((acc, s) => acc + s.duration || 0, 0);
             const shift = shifts[shifts.length - 1];
             duration = interval(1000).pipe(
               startWith(null),

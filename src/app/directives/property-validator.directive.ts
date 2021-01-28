@@ -6,8 +6,8 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Observable, NEVER, of } from 'rxjs';
-import { pluck, map, tap, finalize } from 'rxjs/operators';
+import { Observable, NEVER } from 'rxjs';
+import { pluck, map } from 'rxjs/operators';
 
 @Directive({
   selector: '[appPropertyValidator]',

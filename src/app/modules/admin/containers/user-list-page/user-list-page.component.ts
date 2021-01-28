@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
+import { Apollo, gql } from 'apollo-angular';
 import { Subject } from 'rxjs';
 import { pluck, takeUntil } from 'rxjs/operators';
 
@@ -169,6 +168,7 @@ export class UserListPageComponent implements OnInit, OnDestroy {
   }
 
   addRole() {
+    /*
     const query = gql`
       mutation MyMutation($role_id: String!, $user_id: Int!) {
         insert_user_roles_one(
@@ -179,5 +179,6 @@ export class UserListPageComponent implements OnInit, OnDestroy {
         }
       }
     `;
+    */
   }
 }

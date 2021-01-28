@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
+import { Apollo, gql } from 'apollo-angular';
 import { map, pluck } from 'rxjs/operators';
 
-const query = gql`
+const QUERY = gql`
   subscription {
     machine_execution_state(
       distinct_on: machine_id
@@ -42,7 +41,7 @@ const query = gql`
   styleUrls: ['./machine-status-grid.component.scss'],
 })
 export class MachineStatusGridComponent implements OnInit {
-  data$ = this.apollo.subscribe({ query }).pipe(
+  data$ = this.apollo.subscribe({ query: QUERY }).pipe(
     pluck('data', 'machine_execution_state'),
     map((arr: any[]) =>
       arr.map(({ machine, machine_id, timestamp, value }) => ({

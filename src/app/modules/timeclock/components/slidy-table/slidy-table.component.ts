@@ -18,11 +18,10 @@ import {
 } from '@angular/animations';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { MatTableDataSource } from '@angular/material/table';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
+import { Apollo, gql } from 'apollo-angular';
 import { group } from 'd3-array';
 import * as d3 from 'd3';
-import { Observable, of, Subject, interval, ReplaySubject } from 'rxjs';
+import { of, Subject, interval, ReplaySubject } from 'rxjs';
 import {
   delay,
   takeUntil,
@@ -394,7 +393,7 @@ export class SlidyTableComponent
         }))
       ),
       map((arr: any[]) => {
-        const vals = [];
+        // const vals = [];
         let total = 0;
         for (const [key, value] of group(arr, (d) => d.date)) {
           const i = days.indexOf(key);
@@ -421,7 +420,7 @@ export class SlidyTableComponent
   }
 
   positionShift(shift, color = 'blue') {
-    const [minDate, maxDate, dateRange] = this.range;
+    const [minDate, dateRange] = [this.range[0], this.range[2]];
 
     const [a, b, c] = [
       shift.date_start,
@@ -434,10 +433,4 @@ export class SlidyTableComponent
 
     return { left, width, 'background-color': color };
   }
-}
-
-function getWeekNumber(date: Date): number {
-  const now = new Date();
-  const onejan = new Date(now.getFullYear(), 0, 1);
-  return Math.ceil(((+now - +onejan) / 8.64e7 + onejan.getDay() + 1) / 7);
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { first, tap, map, refCount, publishBehavior } from 'rxjs/operators';
+import { first, map, refCount, publishBehavior } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login-base-page',

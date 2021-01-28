@@ -58,8 +58,8 @@ export class WeeklyShiftGraphComponent
     let { width } = this.el.nativeElement.getBoundingClientRect();
     const margin = { top: 40, right: 40, bottom: 40, left: 40 };
 
-    const now = new Date();
-    const week = d3.timeSunday.floor(now);
+    // const now = new Date();
+    // const week = d3.timeSunday.floor(now);
     const weekRows = 10;
 
     const totalHeight = weekRowStep * weekRows;
@@ -67,8 +67,8 @@ export class WeeklyShiftGraphComponent
 
     const g = this.svg.append('g');
 
-    const callout = (s) => {};
-    const bisector = d3.bisector((d: any) => d.date).left;
+    // const callout = (s) => {};
+    // const bisector = d3.bisector((d: any) => d.date).left;
     const fmt = '%Y-%m-%d';
     const serialize = d3.timeFormat(fmt);
     const deserialize = d3.timeParse(fmt);
@@ -102,6 +102,7 @@ export class WeeklyShiftGraphComponent
 
         console.log(data);
 
+        /*
         const bisect = (mx) => {
           const date = xScale.invert(mx);
           const index = bisector(data, date, 1);
@@ -109,6 +110,7 @@ export class WeeklyShiftGraphComponent
           const b = data[index];
           return b && date - a.date > b.date - date ? b : a;
         };
+        */
 
         yScale.domain([
           d3.timeWeek.floor(range[0]),
@@ -163,11 +165,10 @@ export class WeeklyShiftGraphComponent
               .call(d3.axisBottom(scale));
           })
           .sort((a: any, b: any) => d3.ascending(a[0], b[0]))
-          .on('mouseenter', (event, d) => console.log(d));
+          .on('mouseenter', (_, d) => console.log(d));
 
-        g.on('touchmove mousemove', (event) => {
-          const { date, value } = bisect(d3.pointer(event)[0]);
-
+        g.on('touchmove mousemove', (_) => {
+          // const { date, value } = bisect(d3.pointer(event)[0]);
           // tooltip.attr("transform", `translate(${x(date)},${y(value)})`)
         });
       });
@@ -195,6 +196,7 @@ export class WeeklyShiftGraphComponent
   }
 }
 
+/*
 function unstringifyDate(s: string): Date {
   const [y, m, d] = s.split('-').map((ss) => parseInt(ss, 10));
   return new Date(y, m - 1, d);
@@ -203,3 +205,4 @@ function unstringifyDate(s: string): Date {
 function stringifyDate(date: Date): string {
   return [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-');
 }
+*/

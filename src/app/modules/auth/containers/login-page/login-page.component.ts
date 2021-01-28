@@ -7,10 +7,9 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
-import { throwError, Subject, empty } from 'rxjs';
+import { throwError, Subject } from 'rxjs';
 import {
   timeoutWith,
-  ignoreElements,
   publishBehavior,
   refCount,
   finalize,

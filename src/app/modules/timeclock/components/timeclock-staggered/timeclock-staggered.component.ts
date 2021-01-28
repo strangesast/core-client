@@ -1,7 +1,7 @@
 import {
   OnChanges,
   SimpleChanges,
-  ElementRef,
+  //  ElementRef,
   AfterViewInit,
   ViewChild,
   Input,
@@ -15,8 +15,8 @@ import { of, BehaviorSubject, fromEvent } from 'rxjs';
 import { startWith, map, switchMap } from 'rxjs/operators';
 import {
   MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
+  //  MatDialogRef,
+  //  MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 
 import { TimeclockShiftDialogComponent } from '../timeclock-shift-dialog/timeclock-shift-dialog.component';
@@ -84,7 +84,7 @@ export class TimeclockStaggeredComponent
     const scrolled$ = this.scroller.elementScrolled();
 
     {
-      const { width, height } = this.getHostElementSize();
+      const { width } = this.getHostElementSize();
       this.scroller.scrollTo({ left: width / 2 });
     }
 
@@ -131,6 +131,6 @@ export class TimeclockStaggeredComponent
       data,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe();
   }
 }

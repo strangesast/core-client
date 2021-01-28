@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Router,
-  CanActivate,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
+import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router';
 import { map } from 'rxjs/operators';
 
 import { UserService } from '../../../services/user.service';
@@ -16,7 +10,7 @@ import { UserService } from '../../../services/user.service';
 export class RolesGuard implements CanActivate {
   constructor(public userService: UserService, public router: Router) {}
 
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  canActivate(next: ActivatedRouteSnapshot) {
     return this.userService.user$.pipe(
       map((user) => {
         if (!user) {

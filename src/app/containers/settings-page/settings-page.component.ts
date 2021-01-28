@@ -1,4 +1,4 @@
-import { HostListener, OnDestroy, Component, OnInit } from '@angular/core';
+import { OnDestroy, Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 
 import { UserService } from '../../services/user.service';

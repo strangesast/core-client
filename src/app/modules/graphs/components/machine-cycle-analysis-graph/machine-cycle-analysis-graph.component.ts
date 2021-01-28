@@ -41,7 +41,7 @@ export class MachineCycleAnalysisGraphComponent
         (d) => d.property
       );
 
-      const { width, height } = this.el.nativeElement.getBoundingClientRect();
+      const { width } = this.el.nativeElement.getBoundingClientRect();
 
       const margin = { top: 40, left: 40, right: 40, bottom: 40 };
       const eachHeight = 100;
@@ -69,7 +69,7 @@ export class MachineCycleAnalysisGraphComponent
             .append('g')
             .attr(
               'transform',
-              (d, i) => `translate(${100 * i},${legendHeight / 2})`
+              (_, i) => `translate(${100 * i},${legendHeight / 2})`
             )
             .call((ss) => {
               ss.append('rect')
@@ -100,7 +100,7 @@ export class MachineCycleAnalysisGraphComponent
             )
         )
         .call((s) => s.select('text').text((dd) => dd[0]))
-        .attr('transform', (d, i) => `translate(${eachWidth * i},0)`)
+        .attr('transform', (_, i) => `translate(${eachWidth * i},0)`)
         .selectAll('g.cycle')
         .data((d) => Array.from(d[1]).sort((a, b) => (a[0] > b[0] ? 1 : -1)))
         .join((s) =>
@@ -116,7 +116,7 @@ export class MachineCycleAnalysisGraphComponent
         )
         .attr(
           'transform',
-          (d, i) => `translate(0,${eachHeight * i + margin.top})`
+          (_, i) => `translate(0,${eachHeight * i + margin.top})`
         )
         .each(function (d: any) {
           const s = d3.select(this);

@@ -1,25 +1,15 @@
-import {
-  ChangeDetectionStrategy,
-  AfterViewInit,
-  Component,
-  OnInit,
-} from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder, FormArray, FormGroup, FormControl } from '@angular/forms';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
-import { group } from 'd3-array';
+import { FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { Apollo, gql } from 'apollo-angular';
 import * as d3 from 'd3';
 import {
   multicast,
   debounceTime,
-  throttleTime,
   startWith,
-  tap,
   pluck,
   map,
   switchMap,
-  skipUntil,
   refCount,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -219,7 +209,7 @@ export class PartActivityGraphComponent
 
     const g = this.svg.append('g');
     const bg = g.append('rect').attr('fill', 'transparent');
-    const gx = this.svg.append('g');
+    // const gx = this.svg.append('g');
 
     const DEFAULT_EXCLUDE = ['block'];
     this.init$
@@ -272,7 +262,7 @@ export class PartActivityGraphComponent
     );
 
     const xScale = d3.scaleTime();
-    const xAxis = d3.axisBottom(xScale);
+    // const xAxis = d3.axisBottom(xScale);
 
     const zoom = d3.zoom();
 
@@ -284,7 +274,7 @@ export class PartActivityGraphComponent
           this.form.valueChanges.pipe(
             debounceTime(1000),
             startWith(this.form.value),
-            map(({ fields, minDate, maxDate }) => {
+            map(({ fields, minDate }) => {
               const window = [minDate, d3.timeHour.offset(minDate, 12)].map(
                 (d) => +d
               );
@@ -313,12 +303,14 @@ export class PartActivityGraphComponent
         })),
         withLatestFrom(range$, fields$)
       )
-      .subscribe(([values, range, fields]) => {
+      .subscribe(([_, range]) => {
+        /*
         const machineIds = values.machines.map((v) => v.machine_id);
         const machinesById = values.machines.reduce((acc, val) => ({
           ...acc,
           [val.machine_id]: val,
         }));
+        */
 
         const { width, height } = this.svg.node().getBoundingClientRect();
         bg.attr('width', width).attr('height', height);

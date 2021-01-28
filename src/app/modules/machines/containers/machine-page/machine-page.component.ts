@@ -8,19 +8,13 @@ import {
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
-import { combineLatest, ReplaySubject, of } from 'rxjs';
-import { startWith, tap, map, pluck, switchMap } from 'rxjs/operators';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
+import { combineLatest } from 'rxjs';
+import { startWith, map, pluck, switchMap } from 'rxjs/operators';
+import { Apollo, gql } from 'apollo-angular';
 import * as d3 from 'd3';
-import { Selection } from 'd3';
 
-const query = gql`
-  query ExecutionState(
-    $machineID: String
-    $minDate: timestampz
-    $maxDate: timestampz
-  ) {
+const QUERY = gql`
+  query($machineID: String, $minDate: timestampz, $maxDate: timestampz) {
     executions: machine_execution_state(
       where: {
         _and: {
@@ -49,7 +43,7 @@ const query = gql`
   }
 `;
 
-const allQuery = gql`
+const ALL_QUERY = gql`
   query ExecutionState($machineID: String) {
     executions: machine_execution_state(
       where: { machine_id: { _eq: $machineID } }
@@ -72,11 +66,6 @@ const allQuery = gql`
     }
   }
 `;
-
-interface Record {
-  id: string;
-  name: string;
-}
 
 @Component({
   selector: 'app-machine-page',
@@ -134,7 +123,7 @@ export class MachinePageComponent implements OnInit, AfterViewInit {
     interval: ['all'],
   });
 
-  svg: Selection<any, SVGElement, any, any>;
+  svg: d3.Selection<any, SVGElement, any, any>;
 
   xScale;
   xAxis;
@@ -172,14 +161,14 @@ export class MachinePageComponent implements OnInit, AfterViewInit {
       this.apollo.query(
         range != null
           ? {
-              query,
+              query: QUERY,
               variables: {
                 machineID,
                 minDate: range[0].toISOString(),
                 maxDate: range[1].toISOString(),
               },
             }
-          : { query: allQuery, variables: { machineID } }
+          : { query: ALL_QUERY, variables: { machineID } }
       )
     ),
     pluck('data'),
@@ -219,7 +208,7 @@ export class MachinePageComponent implements OnInit, AfterViewInit {
   }
 
   draw(data) {
-    const { width, height } = this.el.nativeElement.getBoundingClientRect();
+    const { width } = this.el.nativeElement.getBoundingClientRect();
     this.xScale.range([this.margin.left, width - this.margin.right]);
 
     // data.sort((a, b) => a.timestamp < b.timestamp ? -1 : 1);
@@ -258,11 +247,11 @@ export class MachinePageComponent implements OnInit, AfterViewInit {
           .attr('x', (d: any) => d.x0)
           .attr('fill', (d: any) => stateColor(d.value))
       )
-      .on('mouseenter', function (d) {
+      .on('mouseenter', function () {
         const s = d3.select(this);
         s.attr('opacity', 0.5);
       })
-      .on('mouseleave', function (d) {
+      .on('mouseleave', function () {
         const s = d3.select(this);
         s.attr('opacity', 1);
       });

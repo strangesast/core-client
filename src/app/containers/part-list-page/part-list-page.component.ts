@@ -1,9 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
+import { Apollo, gql } from 'apollo-angular';
 import { Subject } from 'rxjs';
-import { takeUntil, pluck } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
+
+const QUERY = gql`
+  query {
+    part_order_counts(order_by: { sum: desc }) {
+      part
+      sum
+      total_ordered_units
+    }
+  }
+`;
 
 @Component({
   selector: 'app-part-list-page',
@@ -54,15 +63,7 @@ export class PartListPageComponent implements OnDestroy, OnInit {
   destroyed$ = new Subject();
 
   query$ = this.apollo.query({
-    query: gql`
-      query MyQuery {
-        part_order_counts(order_by: { sum: desc }) {
-          part
-          sum
-          total_ordered_units
-        }
-      }
-    `,
+    query: QUERY,
   });
 
   dataSource: MatTableDataSource<any> = new MatTableDataSource();

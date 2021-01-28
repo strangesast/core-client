@@ -55,9 +55,9 @@ export class CameraViewerComponent
     svg.call(zoom);
 
     this.getAssets().subscribe((json: any) => {
-      const center = d3.geoCentroid(json);
-      const { width, height } = svg.node().getBoundingClientRect();
-      const offset: [number, number] = [width / 2, height / 2];
+      // const center = d3.geoCentroid(json);
+      // const { width, height } = svg.node().getBoundingClientRect();
+      // const offset: [number, number] = [width / 2, height / 2];
       const feature = topojson.feature(
         json,
         json.objects['DF Building - 2019 Q2 190627']
@@ -70,9 +70,9 @@ export class CameraViewerComponent
         .attr('d', (d) => path(d));
     });
 
-    const aov = 53; // angle-of-view
-    const radius = 100; // approximation of camera view depth
-    const oradius = radius / Math.cos(aov / 4);
+    // const aov = 53; // angle-of-view
+    // const radius = 100; // approximation of camera view depth
+    // const oradius = radius / Math.cos(aov / 4);
 
     const gradients = ['blue', 'red'];
 
@@ -106,7 +106,7 @@ export class CameraViewerComponent
     let adjy;
 
     const dragstarted = (event, d) => {
-      const { x, y } = event;
+      // const { x, y } = event;
       adjy = (d.radius + 10) * Math.sin((d.rot * Math.PI) / 180);
       adjx = (d.radius + 10) * Math.cos((d.rot * Math.PI) / 180);
       const el = event.sourceEvent.target.parentElement;
@@ -137,7 +137,7 @@ export class CameraViewerComponent
       }
     };
 
-    const dragended = (event, d) => {
+    const dragended = (event, _) => {
       d3.select(event.currentTarget)
         .select('circle')
         .attr('fill', `url(#${'blue-gradient'})`);
@@ -197,7 +197,7 @@ export class CameraViewerComponent
                 .attr('clip-path', (d) => `url(#clip-${d.id})`)
                 .attr('r', (d) => d.radius)
                 .attr('fill', `url(#${'blue-gradient'})`)
-                .on('click', (event, d) => {
+                .on('click', (event, _) => {
                   // reset other(0+) active circles
 
                   this.g.selectAll('g.circle.active').call((ss) => {

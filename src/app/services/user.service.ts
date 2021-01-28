@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { select, Store } from '@ngrx/store';
-import { concat, from, Observable, BehaviorSubject } from 'rxjs';
-import { exhaustMap, pluck, map, tap } from 'rxjs/operators';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
+import { from, Observable } from 'rxjs';
+import { exhaustMap, pluck, tap } from 'rxjs/operators';
+import { Apollo, gql } from 'apollo-angular';
 import {
   UserLoginPayload,
   UserLoginResult,
@@ -14,8 +13,8 @@ import {
 
 import { logout, login } from '../actions/user.actions';
 
-const OneUserQuery = gql`
-  query OneUserQuery($id: Int!) {
+const ONE_USER_QUERY = gql`
+  query($id: Int!) {
     users_by_pk(id: $id) {
       color
       email
@@ -73,16 +72,8 @@ export class UserService {
 
   getUser(userId: number): Observable<User> {
     return this.apollo
-      .query({ query: OneUserQuery, variables: { id: userId } })
-      .pipe(
-        map((result: any) => {
-          return result.data.users_by_pk;
-          // const {color, email, user_roles, username, id} = ;
-          // const roles = user_roles.reduce((acc, {role}) => ({...acc, [role.id]: role}), {});
-          // const user = {username, email, color, name: {first: first_name, middle: middle_name, last: last_name}, roles};
-          // return user;
-        })
-      );
+      .query({ query: ONE_USER_QUERY, variables: { id: userId } })
+      .pipe(pluck('data', 'users_by_pk'));
   }
 
   reset() {

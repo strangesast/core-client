@@ -2,10 +2,8 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { group } from 'd3-array';
-import * as d3 from 'd3';
 
 import { BaseGraphComponent } from '../base-graph/base-graph.component';
-import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-shifts-graph',

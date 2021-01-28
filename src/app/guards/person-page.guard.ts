@@ -4,14 +4,13 @@ import {
   Router,
   CanActivate,
   ActivatedRouteSnapshot,
-  RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
 import { gql, Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { pluck, mapTo, map, tap } from 'rxjs/operators';
 
-const query = gql`
+const QUERY = gql`
   query($id: Int!) {
     employees_by_pk(id: $id) {
       first_name
@@ -21,7 +20,7 @@ const query = gql`
   }
 `;
 
-const personQuery = gql`
+const PERSON_QUERY = gql`
   query($ln: String = "", $fn: String = "") {
     employees(
       where: {
@@ -46,8 +45,7 @@ const personQuery = gql`
 })
 export class PersonPageGuard implements CanActivate, Resolve<any> {
   canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    next: ActivatedRouteSnapshot
   ):
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree>
@@ -56,7 +54,7 @@ export class PersonPageGuard implements CanActivate, Resolve<any> {
     const { id: s } = next.params;
     const id = parseInt(s, 10);
     if (!isNaN(id)) {
-      return this.apollo.query({ query, variables: { id } }).pipe(
+      return this.apollo.query({ query: QUERY, variables: { id } }).pipe(
         pluck('data', 'employees_by_pk'),
         tap((v: any) => {
           if (v != null) {
@@ -78,11 +76,11 @@ export class PersonPageGuard implements CanActivate, Resolve<any> {
     return true;
   }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  resolve(route: ActivatedRouteSnapshot) {
     const { id } = route.params;
     const [fn, ln] = id.split('-').map((s) => `%${s}%`);
     return this.apollo
-      .query({ query: personQuery, variables: { fn, ln } })
+      .query({ query: PERSON_QUERY, variables: { fn, ln } })
       .pipe(
         pluck('data', 'employees'),
         map((employees) => employees[0])

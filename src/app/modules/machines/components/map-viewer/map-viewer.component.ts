@@ -1,6 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
@@ -11,29 +10,14 @@ import {
   ViewChild,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { group } from 'd3-array';
 import * as d3 from 'd3';
 import * as topojson from 'topojson-client';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
+import { Apollo, gql } from 'apollo-angular';
 import { combineLatest, BehaviorSubject, Subject, ReplaySubject } from 'rxjs';
-import {
-  map,
-  takeUntil,
-  pluck,
-  filter,
-  multicast,
-  refCount,
-} from 'rxjs/operators';
-import {
-  animate,
-  trigger,
-  transition,
-  state,
-  style,
-} from '@angular/animations';
+import { takeUntil, pluck, filter, multicast, refCount } from 'rxjs/operators';
+import { animate, trigger, transition, style } from '@angular/animations';
 
-const query = gql`
+const QUERY = gql`
   subscription {
     machines {
       state(limit: 1, order_by: { timestamp: desc, value: asc }) {
@@ -112,7 +96,7 @@ export class MapViewerComponent implements AfterViewInit, OnChanges, OnDestroy {
   constructor(public apollo: Apollo, public http: HttpClient) {}
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize() {
     const { width, height } = this.el.nativeElement.getBoundingClientRect();
     this.width = width;
     this.height = height;
@@ -179,7 +163,7 @@ export class MapViewerComponent implements AfterViewInit, OnChanges, OnDestroy {
     };
 
     this.apollo
-      .subscribe({ query })
+      .subscribe({ query: QUERY })
       .pipe(takeUntil(this.destroyed$), pluck('data', 'machines'))
       .subscribe((data) => console.log(data));
 
@@ -192,12 +176,14 @@ export class MapViewerComponent implements AfterViewInit, OnChanges, OnDestroy {
       this.width = width;
       this.height = height;
 
+      /*
       const machinesMap = machines.reduce(
         (acc, value) => ({ ...acc, [value.machine_id]: value }),
         {}
       );
+      */
 
-      const center = d3.geoCentroid(json);
+      // const center = d3.geoCentroid(json);
       const buildingFeature = topojson.feature(json, json.objects.building);
 
       gBuilding
@@ -228,7 +214,7 @@ export class MapViewerComponent implements AfterViewInit, OnChanges, OnDestroy {
               ss.append('circle').attr('fill', 'green');
             })
         )
-        .each(function ([machineId, geometry]: any, i: number) {
+        .each(function ([machineId, geometry]: any, _: number) {
           const s = d3.select(this);
 
           const f = topojson.feature(json, geometry);
@@ -257,7 +243,7 @@ export class MapViewerComponent implements AfterViewInit, OnChanges, OnDestroy {
             .select('path')
             .attr('stroke-width', null);
         })
-        .on('click', (event, d) => {
+        .on('click', (_, d) => {
           if (this.lastClicked === d[0]) {
             this.dirty = false;
             this.lastClicked = '';

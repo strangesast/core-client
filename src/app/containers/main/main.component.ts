@@ -118,7 +118,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('window:resize', ['$event'])
-  getScreenHeight(event?) {
+  getScreenHeight() {
     if (window.innerHeight <= 412) {
       this.navStickyClass = 'bottomRelative';
     } else {

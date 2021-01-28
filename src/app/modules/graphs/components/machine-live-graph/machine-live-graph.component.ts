@@ -76,7 +76,7 @@ export class MachineLiveGraphComponent
     super.ngAfterViewInit();
 
     const margin = { top: 40, right: 40, bottom: 40, left: 40 };
-    const { width, height } = this.el.nativeElement.getBoundingClientRect();
+    const { width } = this.el.nativeElement.getBoundingClientRect();
     const xScale = d3.scaleTime().range([margin.left, width - margin.right]);
 
     this.svg.style('height', `${12 * 100}px`);
@@ -127,7 +127,7 @@ export class MachineLiveGraphComponent
             (s) => s,
             (s) => s.exit().remove()
           )
-          .attr('transform', (d, i) => `translate(0,${i * 100})`)
+          .attr('transform', (_, i) => `translate(0,${i * 100})`)
           .each(function (d: any) {
             const s = d3.select(this);
             const domain = d3.extent(
@@ -147,11 +147,11 @@ export class MachineLiveGraphComponent
         this.svg
           .selectAll('g')
           .select('path')
-          .attr('transform', (d, i) => `translate(0,0)`)
+          .attr('transform', () => `translate(0,0)`)
           .transition(t)
           .attr(
             'transform',
-            (d, i) =>
+            () =>
               `translate(${
                 xScale(now) - xScale(d3.timeSecond.offset(now, 5))
               },0)`

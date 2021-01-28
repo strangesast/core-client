@@ -8,7 +8,6 @@ import {
   ElementRef,
 } from '@angular/core';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import * as d3 from 'd3';
 import { Selection } from 'd3';
 

@@ -1,6 +1,5 @@
 import {
   AfterViewInit,
-  OnDestroy,
   ViewChild,
   ElementRef,
   Component,
@@ -8,12 +7,11 @@ import {
 } from '@angular/core';
 import * as d3 from 'd3';
 import { group } from 'd3-array';
-import { combineLatest, ReplaySubject, Subject } from 'rxjs';
+import { combineLatest, ReplaySubject } from 'rxjs';
 import {
   withLatestFrom,
   switchMap,
   pluck,
-  tap,
   map,
   takeUntil,
 } from 'rxjs/operators';
@@ -166,7 +164,7 @@ export class MachineActivityGraphComponent
   ngAfterViewInit() {
     super.ngAfterViewInit();
     const margin = { top: 40, left: 40, right: 40, bottom: 40 };
-    const { width, height } = this.el.nativeElement.getBoundingClientRect();
+    const { width } = this.el.nativeElement.getBoundingClientRect();
     const xScale = d3.scaleTime().range([margin.left, width - margin.right]);
     const xAxis = d3.axisBottom(xScale);
 
@@ -196,7 +194,7 @@ export class MachineActivityGraphComponent
                 .call((sss) => sss.append('text'));
             })
           )
-          .attr('transform', (d, i) => `translate(0,${margin.top + i * 70})`)
+          .attr('transform', (_, i) => `translate(0,${margin.top + i * 70})`)
           .call((s) =>
             s
               .select('.text')

@@ -8,7 +8,7 @@ import {
 import { FormBuilder } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { gql, Apollo } from 'apollo-angular';
-import { of, BehaviorSubject, ReplaySubject } from 'rxjs';
+import { of, ReplaySubject } from 'rxjs';
 import {
   pluck,
   startWith,
@@ -18,8 +18,8 @@ import {
   publishBehavior,
 } from 'rxjs/operators';
 
-const query = gql`
-  query MyQuery($min: timestamp, $max: timestamp, $employeeId: Int) {
+const QUERY = gql`
+  query($min: timestamp, $max: timestamp, $employeeId: Int) {
     timeclock_shifts(
       where: {
         _and: [
@@ -92,7 +92,7 @@ export class TimecardComponent implements OnInit, OnChanges {
   })();
 
   weeks$ = this.http.get('/', { responseType: 'text' }).pipe(
-    switchMap((res) => of(null)),
+    switchMap((_) => of(null)),
     map(() => {
       const arr = [];
       let date = new Date(this.thisWeek);
@@ -126,8 +126,7 @@ export class TimecardComponent implements OnInit, OnChanges {
             max: max.toISOString(),
             employeeId,
           };
-          console.log(variables);
-          return this.apollo.query({ query, variables }).pipe(
+          return this.apollo.query({ query: QUERY, variables }).pipe(
             pluck('data', 'timeclock_shifts'),
             map((data: any[]) => {
               const byDate = [];
@@ -140,7 +139,6 @@ export class TimecardComponent implements OnInit, OnChanges {
                 days.push(serializeDate(date));
               }
               for (const each of data) {
-                console.log(each.date, days);
                 const i = days.indexOf(each.date);
                 if (i > -1) {
                   byDate[i].shifts.push(each);

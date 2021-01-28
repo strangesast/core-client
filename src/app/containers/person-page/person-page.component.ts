@@ -6,13 +6,12 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject, ReplaySubject, combineLatest, of } from 'rxjs';
+import { Subject, ReplaySubject, combineLatest } from 'rxjs';
 import {
   startWith,
   takeUntil,
   multicast,
   refCount,
-  tap,
   map,
   pluck,
   switchMap,
@@ -22,7 +21,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
-const query = gql`
+const SHIFTS_QUERY = gql`
   query(
     $employeeId: Int!
     $limit: Int = 10
@@ -47,6 +46,16 @@ const query = gql`
       }
       is_manual
       id
+    }
+  }
+`;
+
+const AGG_SHIFTS_QUERY = gql`
+  query($employeeId: Int!) {
+    timeclock_shifts_aggregate(where: { employee_id: { _eq: $employeeId } }) {
+      aggregate {
+        count
+      }
     }
   }
 `;
@@ -158,17 +167,7 @@ export class PersonPageComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(
         switchMap((employee) =>
           this.apollo.query({
-            query: gql`
-              query MyQuery($employeeId: Int!) {
-                timeclock_shifts_aggregate(
-                  where: { employee_id: { _eq: $employeeId } }
-                ) {
-                  aggregate {
-                    count
-                  }
-                }
-              }
-            `,
+            query: AGG_SHIFTS_QUERY,
             variables: { employeeId: employee.id },
           })
         ),
@@ -179,7 +178,9 @@ export class PersonPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     variables$
       .pipe(
-        switchMap((variables) => this.apollo.query({ query, variables })),
+        switchMap((variables) =>
+          this.apollo.query({ query: SHIFTS_QUERY, variables })
+        ),
         pluck('data', 'timeclock_shifts'),
         map((data: any[]) =>
           data.map(({ date_start, date_stop, ...props }) => ({

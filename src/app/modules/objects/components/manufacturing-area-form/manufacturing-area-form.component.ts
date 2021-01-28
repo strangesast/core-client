@@ -47,7 +47,7 @@ export class ManufacturingAreaFormComponent
   writeValue(obj: any) {
     this.form.patchValue(obj);
   }
-  onChange = (val: any) => {};
+  onChange = (_: any) => {};
 
   registerOnChange(fn) {
     this.onChange = fn;

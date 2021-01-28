@@ -9,7 +9,7 @@ import { PersonListPageComponent } from '../containers/person-list-page/person-l
 import { OrderListPageComponent } from '../containers/order-list-page/order-list-page.component';
 import { OrderPageComponent } from '../containers/order-page/order-page.component';
 import { PartListPageComponent } from '../containers/part-list-page/part-list-page.component';
-import { PartPageComponent } from '../containers//part-page/part-page.component';
+import { PartPageComponent } from '../containers/part-page/part-page.component';
 import { CustomerListPageComponent } from '../containers/customer-list-page/customer-list-page.component';
 import { InventoryPageComponent } from '../containers/inventory-page/inventory-page.component';
 import { NotificationsPageComponent } from '../containers/notifications-page/notifications-page.component';
@@ -107,7 +107,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [
+    RouterModule.forRoot(routes, { relativeLinkResolution: 'corrected' }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

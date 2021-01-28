@@ -185,7 +185,7 @@ export class CreateAccountPageComponent implements OnInit, OnDestroy {
                 tap((redirect) => this.router.navigateByUrl(redirect))
               );
             }),
-            catchError((err) => {
+            catchError((_) => {
               this.error = 'error';
               return EMPTY.pipe(
                 delay(1000),

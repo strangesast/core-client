@@ -6,9 +6,9 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, Subject, of } from 'rxjs';
-import { takeUntil, tap, switchMap, map } from 'rxjs/operators';
+import { takeUntil, tap, switchMap } from 'rxjs/operators';
 import * as d3 from 'd3';
 
 interface Datum {
@@ -48,13 +48,15 @@ export class ActivityCountPreviewComponent
   now$ = new BehaviorSubject(new Date());
 
   data$: Observable<{ data: Datum[] }> = this.now$.pipe(
-    switchMap((now) => {
+    switchMap(() => {
+      /*
       const maxDate = now;
       const minDate = d3.timeHour.offset(maxDate, -6);
       const params = {
         minDate: minDate.toISOString(),
         maxDate: maxDate.toISOString(),
       };
+      */
       return of({ data: [] } as { data: Datum[] });
       /*
       return this.http

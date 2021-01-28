@@ -1,30 +1,10 @@
-import {
-  ViewChild,
-  Injectable,
-  Input,
-  Component,
-  OnInit,
-  OnDestroy,
-} from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  Resolve,
-  ActivatedRoute,
-} from '@angular/router';
+import { ViewChild, Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
+import { Apollo, gql } from 'apollo-angular';
 import { Subject, ReplaySubject } from 'rxjs';
-import {
-  multicast,
-  refCount,
-  pluck,
-  tap,
-  map,
-  takeUntil,
-} from 'rxjs/operators';
+import { multicast, refCount, pluck, takeUntil } from 'rxjs/operators';
 
 const query = gql`
   subscription {
@@ -43,19 +23,6 @@ const query = gql`
     }
   }
 `;
-
-enum MachineStatus {
-  Unknown = 'unknown',
-  Active = 'active',
-  Interrupted = 'interrupted',
-  Stopped = 'stopped',
-  Unavailable = 'unavailable',
-}
-
-interface Record {
-  id: string;
-  name: string;
-}
 
 @Component({
   selector: 'app-machines-page',

@@ -49,9 +49,11 @@ interface LegendValue {
   };
 }
 
+/*
 const DONE = 'M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z';
 const REMOVE =
   'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z';
+*/
 
 @Component({
   selector: 'app-prod-schedule-graph',
@@ -98,8 +100,8 @@ export class ProdScheduleGraphComponent
     const date0 = d3.timeHour.offset(d3.timeDay.floor(new Date()), 6);
     const date1 = d3.timeHour.offset(date0, 1);
     const date2 = d3.timeHour.offset(date1, 2);
-    const date3 = d3.timeHour.offset(date2, 2);
-    const date4 = d3.timeMinute.offset(date3, 40);
+    // const date3 = d3.timeHour.offset(date2, 2);
+    // const date4 = d3.timeMinute.offset(date3, 40);
 
     const subassemblies = [
       {
@@ -309,7 +311,7 @@ export class ProdScheduleGraphComponent
         .each(function (dd) {
           const s = d3.select(this);
 
-          const { rects, stages } = calculatePositions(dd);
+          const { rects } = calculatePositions(dd);
 
           s.selectAll<any, any>('g.rect')
             .data(rects)
@@ -384,7 +386,7 @@ export class ProdScheduleGraphComponent
                 .data((ddd) =>
                   ddd.op.complete
                     ? ['complete']
-                    : !d.op.available
+                    : !ddd.op.available
                     ? ['incomplete']
                     : []
                 )

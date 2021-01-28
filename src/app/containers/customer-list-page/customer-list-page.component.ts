@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
-import { Subject } from 'rxjs';
-import { takeUntil, pluck } from 'rxjs/operators';
+import { Apollo, gql } from 'apollo-angular';
 import { MatTableDataSource } from '@angular/material/table';
+
+const QUERY = gql`
+  query {
+    customer_order_counts {
+      customer
+      sum
+    }
+  }
+`;
 
 @Component({
   selector: 'app-customer-list-page',
@@ -85,18 +91,9 @@ import { MatTableDataSource } from '@angular/material/table';
 export class CustomerListPageComponent implements OnInit {
   displayedColumns = ['customer'];
 
-  query = gql`
-    query BQuery {
-      customer_order_counts {
-        customer
-        sum
-      }
-    }
-  `;
-
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
 
-  query$ = this.apollo.query({ query: this.query });
+  query$ = this.apollo.query({ query: QUERY });
 
   constructor(public apollo: Apollo) {}
 

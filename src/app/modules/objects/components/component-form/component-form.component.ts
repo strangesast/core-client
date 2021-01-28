@@ -11,7 +11,6 @@ import {
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Subject, Subscription, ReplaySubject } from 'rxjs';
 import {
-  tap,
   map,
   takeUntil,
   withLatestFrom,

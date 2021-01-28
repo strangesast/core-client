@@ -1,54 +1,60 @@
 import { NgModule } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
-import { split, ApolloClientOptions } from '@apollo/client/core';
+import { SubscriptionClient } from 'subscriptions-transport-ws';
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { WebSocketLink } from '@apollo/client/link/ws';
-import { HttpLink } from 'apollo-angular/http';
-import { InMemoryCache, NormalizedCacheObject } from '@apollo/client/core';
-import { getMainDefinition } from '@apollo/client/utilities';
+import { InMemoryCache } from '@apollo/client/core';
+import { Observable, Observer } from 'rxjs';
+import { distinctUntilChanged, shareReplay } from 'rxjs/operators';
 
-const uri = '/v1/graphql';
+export class SubscriptionClientConnectionChanges extends Observable<string> {}
 
 @NgModule({
   providers: [
     {
-      provide: APOLLO_OPTIONS,
-      useFactory(
-        httpLink: HttpLink
-      ): ApolloClientOptions<NormalizedCacheObject> {
-        const headers = new HttpHeaders();
-        headers.append('Accept', 'charset=utf-8');
-        const token = localStorage.getItem('token');
-        const authorization = token ? `Bearer ${token}` : null;
-        headers.append('Authorization', authorization);
-
-        const http = httpLink.create({ uri, headers });
-
-        const ws = new WebSocketLink({
-          uri: `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${
-            window.location.host
-          }${uri}`,
-          options: { reconnect: true },
+      provide: SubscriptionClient,
+      useFactory: () => {
+        const { protocol, host } = window.location;
+        const authToken = localStorage.getItem('token');
+        // const authorization = authToken ? `Bearer ${authToken}` : null;
+        const uri = `${
+          protocol === 'https:' ? 'wss:' : 'ws:'
+        }//${host}/v1/graphql`;
+        const client = new SubscriptionClient(uri, {
+          reconnect: true,
+          connectionParams: { authToken },
         });
-
-        const link = split(
-          ({ query }) => {
-            const def = getMainDefinition(query);
-            return (
-              def.kind === 'OperationDefinition' &&
-              def.operation === 'subscription'
-            );
-          },
-          ws,
-          http
-        );
-
-        return {
-          link,
-          cache: new InMemoryCache(),
-        };
+        return client;
       },
-      deps: [HttpLink],
+    },
+    {
+      provide: SubscriptionClientConnectionChanges,
+      useFactory: (client: SubscriptionClient) => {
+        const EVENT_TYPES = [
+          'connected',
+          'connecting',
+          'disconnected',
+          'reconnecting',
+          'reconnected',
+        ];
+        const o: Observable<string> = Observable.create(
+          (observer: Observer<string>) => {
+            for (const eventName of EVENT_TYPES) {
+              client.on(eventName, () => observer.next(eventName));
+            }
+          }
+        );
+        return o.pipe(distinctUntilChanged(), shareReplay(1));
+      },
+      deps: [SubscriptionClient],
+    },
+    {
+      provide: APOLLO_OPTIONS,
+      useFactory: (client: SubscriptionClient) => {
+        const cache = new InMemoryCache();
+        const link = new WebSocketLink(client);
+        return { cache, link };
+      },
+      deps: [SubscriptionClient],
     },
   ],
 })

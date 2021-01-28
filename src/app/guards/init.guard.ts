@@ -1,23 +1,22 @@
 import { Injectable } from '@angular/core';
-import {
-  CanActivate,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
+import { CanActivate } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 import { select, Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { tap, catchError, exhaustMap, map } from 'rxjs/operators';
 
 import { UserService } from '../services/user.service';
+/*
 import { User } from '../util/models';
+*/
 import { init, login } from '../actions/user.actions';
 
+/*
 interface UserResponsePayload {
   user: User;
 }
+*/
 
 @Injectable({
   providedIn: 'root',
@@ -29,14 +28,7 @@ export class InitGuard implements CanActivate {
     public store: Store<any>
   ) {}
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ):
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree>
-    | boolean
-    | UrlTree {
+  canActivate() {
     return this.store.pipe(
       select('user', 'init'),
       exhaustMap((isInitialized) => {
@@ -63,7 +55,7 @@ export class InitGuard implements CanActivate {
             this.store.dispatch(login({ token, user: fullUser }));
             return true;
           }),
-          catchError((err) => {
+          catchError((_) => {
             this.userService.reset();
             return of(true);
           }),

@@ -1,8 +1,7 @@
 import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
+import { Apollo, gql } from 'apollo-angular';
 import { ReplaySubject } from 'rxjs';
 import {
   switchMap,
@@ -248,7 +247,7 @@ export class ShiftCalendarGraphComponent
             .join((ss) =>
               ss.append('g').call((sss) => {
                 sss
-                  .filter((d, i) => i !== 0)
+                  .filter((_, i) => i !== 0)
                   .append('path')
                   .attr('fill', 'none')
                   .attr('stroke', '#fafafa')
@@ -272,7 +271,7 @@ export class ShiftCalendarGraphComponent
                 .text((d) => d.toLocaleDateString('en-us', { month: 'short' }))
             )
         )
-        .attr('transform', (d, i) => `translate(0,${h * i + p * (i + 1)})`)
+        .attr('transform', (_, i) => `translate(0,${h * i + p * (i + 1)})`)
         .select('g.data')
         .selectAll('g.datum')
         .data(
