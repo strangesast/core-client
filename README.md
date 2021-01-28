@@ -1,5 +1,21 @@
 # CORE Client Application
 
+# Sections
+timeclock
+  people
+    stats (start time, shift length)
+  weekly timecard
+machine data
+  each machine current status, last datapoint
+  each machine last 
+
+  recent parts
+  recent programs
+
+  program search
+    versions, similar codes
+  part search
+
 ## Convert .dxf to topojson
 
 `ogr2ogr -f GeoJSON ./df_building.geojson df_building.dxf`
